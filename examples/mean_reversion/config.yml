@@ -3,7 +3,7 @@ name: mean_reversion
 display_name: "Mean Reversion Strategy"
 description: "Bollinger Bands mean reversion with RSI confirmation"
 type: mean_reversion
-icon: "📉"
+icon: "📈"
 
 # Strategy Parameters
 # (Assets and exchanges configured in global exchanges.yml)
