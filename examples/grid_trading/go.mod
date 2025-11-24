@@ -5,6 +5,7 @@ go 1.24.2
 require (
 	github.com/backtesting-org/kronos-sdk v0.0.0-20251105091051-6d28fda61c91
 	github.com/shopspring/decimal v1.4.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (

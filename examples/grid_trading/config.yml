@@ -5,23 +5,15 @@ description: "Automated grid-based buy/sell orders in ranging markets"
 type: grid_trading
 icon: "⚡"
 
-# Strategy Configuration
-exchanges:
-  - binance
-  - bybit
-
-assets:
-  binance:
-    - BTC/USDT
-  bybit:
-    - BTC/USDT
+# Strategy Parameters
+# (Assets and exchanges configured in global exchanges.yml)
 
 parameters:
-  timeframe: 15m
   grid_levels: 10
   grid_spacing_percent: 1.0
   price_upper_bound: 50000
   price_lower_bound: 40000
+  position_size: 0.01  # Quantity per grid level
 
 risk:
   max_position_size: 100

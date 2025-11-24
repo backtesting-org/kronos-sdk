@@ -5,24 +5,18 @@ description: "RSI-based momentum trading with overbought/oversold signals"
 type: momentum
 icon: "📈"
 
-# Strategy Configuration
-exchanges:
-  - binance
-  - bybit
+# Strategy Parameters
+# (Assets and exchanges configured in global exchanges.yml)
 
-assets:
-  binance:
-    - BTC/USDT
-    - ETH/USDT
-  bybit:
-    - BTC/USDT
+indicators:
+  rsi:
+    period: 14
+    oversold: 30
+    overbought: 70
 
 parameters:
-  timeframe: 1h
-  rsi_period: 14
-  rsi_oversold: 30
-  rsi_overbought: 70
   momentum_threshold: 0.02
+  position_size: 0.1  # Quantity per trade
 
 risk:
   max_position_size: 1000
