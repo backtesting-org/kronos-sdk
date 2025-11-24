@@ -1,0 +1,33 @@
+# Strategy Metadata (required for Kronos CLI discovery)
+name: grid_trading
+display_name: "Grid Trading Strategy"
+description: "Automated grid-based buy/sell orders in ranging markets"
+type: grid_trading
+icon: "⚡"
+
+# Strategy Configuration
+exchanges:
+  - binance
+  - bybit
+
+assets:
+  binance:
+    - BTC/USDT
+  bybit:
+    - BTC/USDT
+
+parameters:
+  timeframe: 15m
+  grid_levels: 10
+  grid_spacing_percent: 1.0
+  price_upper_bound: 50000
+  price_lower_bound: 40000
+
+risk:
+  max_position_size: 100
+  stop_loss_percent: 5.0
+  max_total_investment: 10000
+
+execution:
+  order_type: limit
+  slippage_tolerance: 0.05

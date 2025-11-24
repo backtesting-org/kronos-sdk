@@ -1,0 +1,35 @@
+# Strategy Metadata (required for Kronos CLI discovery)
+name: arbitrage
+display_name: "Arbitrage Strategy"
+description: "Cross-exchange price difference exploitation"
+type: arbitrage
+icon: "💱"
+
+# Strategy Configuration
+exchanges:
+  - binance
+  - bybit
+
+assets:
+  binance:
+    - BTC/USDT
+    - ETH/USDT
+  bybit:
+    - BTC/USDT
+    - ETH/USDT
+
+parameters:
+  timeframe: 1m
+  min_spread_percent: 0.5
+  max_spread_percent: 3.0
+  check_interval_ms: 1000
+
+risk:
+  max_position_size: 500
+  stop_loss_percent: 1.0
+  max_open_positions: 2
+
+execution:
+  order_type: limit
+  slippage_tolerance: 0.1
+  timeout_seconds: 30
