@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package inference;
+
+option go_package = "github.com/backtesting-org/kronos-sdk/grpc/gen/inference";
+
+// ModelInference service allows Kronos to send features to user's ML inference server
+// and receive trading predictions back.
+//
+// Flow:
+// 1. Kronos preprocesses market data into features
+// 2. Kronos calls Predict() with feature map
+// 3. User's server runs inference (ONNX, PyTorch, etc.)
+// 4. User's server returns confidence score
+service ModelInference {
+  rpc Predict(Features) returns (Prediction);
+}
+
+// Features contains preprocessed market data for ML inference.
+//
+// The map allows flexibility - different models can use different feature sets.
+// Kronos sends comprehensive features; users select what their model needs.
+message Features {
+  // named_features is a flexible map of feature name -> value
+  // Feature names are strings (e.g., "mid_price", "rsi_14")
+  map<string, double> named_features = 1;
+}
+
+// Prediction contains the model's inference result.
+message Prediction {
+  // confidence is the model's prediction confidence score (0-100)
+  double confidence = 1;
+}
