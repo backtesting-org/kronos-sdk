@@ -44,12 +44,17 @@ const (
 	FeatureTradeCount1m   = "trade_count_1m"   // number of trades (1min)
 
 	// Technical indicator features
-	FeatureRSI14       = "rsi_14"       // RSI (14 periods)
-	FeatureMACD        = "macd"         // MACD line
-	FeatureMACDSignal  = "macd_signal"  // MACD signal line
-	FeatureBBUpper     = "bb_upper"     // Bollinger Band upper
-	FeatureBBLower     = "bb_lower"     // Bollinger Band lower
-	FeatureBBPosition  = "bb_position"  // (price - lower) / (upper - lower)
+	FeatureRSI14         = "rsi_14"         // RSI (14 periods)
+	FeatureMACD          = "macd"           // MACD line
+	FeatureMACDSignal    = "macd_signal"    // MACD signal line
+	FeatureBBUpper       = "bb_upper"       // Bollinger Band upper
+	FeatureBBLower       = "bb_lower"       // Bollinger Band lower
+	FeatureBBPosition    = "bb_position"    // (price - lower) / (upper - lower)
+	FeatureATR14         = "atr_14"         // Average True Range (14 periods)
+	FeatureEMA20         = "ema_20"         // Exponential Moving Average (20 periods)
+	FeatureEMA50         = "ema_50"         // Exponential Moving Average (50 periods)
+	FeatureStochasticK   = "stochastic_k"   // Stochastic %K (14 periods)
+	FeatureStochasticD   = "stochastic_d"   // Stochastic %D (3 periods)
 
 	// Time-based features
 	FeatureHour      = "hour"        // hour of day (0-23)
