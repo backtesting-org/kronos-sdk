@@ -1,8 +1,6 @@
 package market
 
 import (
-	"context"
-
 	"github.com/backtesting-org/kronos-sdk/pkg/types/kronos/analytics"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/portfolio"
 	"github.com/shopspring/decimal"
@@ -34,18 +32,9 @@ func NewExtractor(market analytics.Market) *Extractor {
 }
 
 // Extract computes market data features and adds them to the feature map.
-// Currently supports: mid_price, bid_price, ask_price, last_price, volume_24h,
+// Currently supports: mid_price, bid_price, ask_price, last_price,
 // mark_price, index_price, funding_rate.
-//
-// Note: This requires an asset to be available in the context.
-// TODO: Add context key for asset once orchestration is wired up.
-func (e *Extractor) Extract(ctx context.Context, featureMap map[string]float64) error {
-	// TODO: Get asset from context when orchestration is ready
-	asset, ok := e.getAssetFromContext(ctx)
-	if !ok {
-		// No asset available - skip extraction
-		return nil
-	}
+func (e *Extractor) Extract(asset portfolio.Asset, featureMap map[string]float64) error {
 
 	// Get price data (includes last_price and volume_24h)
 	price, err := e.market.Price(asset)
@@ -94,14 +83,4 @@ func (e *Extractor) Extract(ctx context.Context, featureMap map[string]float64) 
 	}
 
 	return nil
-}
-
-// getAssetFromContext retrieves the asset from context.
-// This is a placeholder until we define the context key structure.
-func (e *Extractor) getAssetFromContext(ctx context.Context) (portfolio.Asset, bool) {
-	// TODO: Implement once we define context keys
-	// Example:
-	// asset, ok := ctx.Value(contextKeyAsset).(portfolio.Asset)
-	// return asset, ok
-	return portfolio.Asset{}, false
 }

@@ -1,19 +1,18 @@
 package features
 
 import (
-	"context"
-
+	"github.com/backtesting-org/kronos-sdk/pkg/types/portfolio"
 	"go.uber.org/fx"
 )
 
 // Extractor computes features from market data for ML inference.
 // Each extractor implementation is responsible for computing a specific
-// category of features (e.g., orderbook, volatility, technical indicators).
+// category of features (e.g., market data, orderbook, technical indicators).
 type Extractor interface {
-	// Extract computes features and adds them to the provided map.
+	// Extract computes features for the given asset and adds them to the provided map.
 	// It should not overwrite existing keys unless explicitly intended.
 	// Returns an error if feature computation fails.
-	Extract(ctx context.Context, features map[string]float64) error
+	Extract(asset portfolio.Asset, features map[string]float64) error
 }
 
 // AggregatorParams defines the dependencies for the feature aggregator.
@@ -35,14 +34,14 @@ func NewAggregator(params AggregatorParams) *Aggregator {
 	}
 }
 
-// Extract runs all registered extractors and returns the combined feature map.
+// Extract runs all registered extractors for the given asset and returns the combined feature map.
 // If any extractor fails, it continues processing others and returns the first error encountered.
-func (a *Aggregator) Extract(ctx context.Context) (map[string]float64, error) {
+func (a *Aggregator) Extract(asset portfolio.Asset) (map[string]float64, error) {
 	features := make(map[string]float64)
 	var firstErr error
 
 	for _, extractor := range a.extractors {
-		if err := extractor.Extract(ctx, features); err != nil && firstErr == nil {
+		if err := extractor.Extract(asset, features); err != nil && firstErr == nil {
 			firstErr = err
 		}
 	}

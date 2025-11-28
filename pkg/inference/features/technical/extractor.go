@@ -1,8 +1,6 @@
 package technical
 
 import (
-	"context"
-
 	"github.com/backtesting-org/kronos-sdk/pkg/types/kronos/analytics"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/portfolio"
 )
@@ -37,17 +35,8 @@ func NewExtractor(indicators analytics.Indicators) *Extractor {
 }
 
 // Extract computes technical indicator features and adds them to the feature map.
-// Currently supports: RSI, MACD, Bollinger Bands, ATR, SMA, EMA, Stochastic.
-//
-// Note: This requires an asset to be available in the context.
-// TODO: Add context key for asset once orchestration is wired up.
-func (e *Extractor) Extract(ctx context.Context, featureMap map[string]float64) error {
-	// For now, this is a placeholder implementation that returns early
-	asset, ok := e.getAssetFromContext(ctx)
-	if !ok {
-		// No asset available - skip extraction
-		return nil
-	}
+// Currently supports: RSI, MACD, Bollinger Bands, ATR, EMA, Stochastic.
+func (e *Extractor) Extract(asset portfolio.Asset, featureMap map[string]float64) error {
 
 	// Extract RSI (14-period)
 	if rsi, err := e.indicators.RSI(asset, 14); err == nil {
@@ -98,13 +87,4 @@ func (e *Extractor) Extract(ctx context.Context, featureMap map[string]float64) 
 	}
 
 	return nil
-}
-
-// getAssetFromContext retrieves the asset from context.
-// This is a placeholder until we define the context key structure.
-func (e *Extractor) getAssetFromContext(ctx context.Context) (portfolio.Asset, bool) {
-	// Example:
-	// asset, ok := ctx.Value(contextKeyAsset).(portfolio.Asset)
-	// return asset, ok
-	return portfolio.Asset{}, false
 }
