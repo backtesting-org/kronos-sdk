@@ -60,9 +60,4 @@ const (
 	FeatureHour      = "hour"        // hour of day (0-23)
 	FeatureDayOfWeek = "day_of_week" // day of week (0=Monday, 6=Sunday)
 	FeatureMinute    = "minute"      // minute of hour (0-59)
-
-	// Market microstructure features
-	FeaturePriceMomentum1m  = "price_momentum_1m"  // directional price movement
-	FeatureAggressorRatio   = "aggressor_ratio"    // buy_aggressor / total_trades
-	FeatureLargeTradeRatio  = "large_trade_ratio"  // trades > threshold / total_trades
 )
