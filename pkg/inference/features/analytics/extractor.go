@@ -24,10 +24,16 @@ const (
 	featureVolumeRatio    = "volume_ratio"
 	featureBuyVolumeRatio = "buy_volume_ratio"
 	featureTradeCount1m   = "trade_count_1m"
+
+	// Time-based features
+	featureHour      = "hour"
+	featureDayOfWeek = "day_of_week"
+	featureMinute    = "minute"
 )
 
-// Extractor computes analytics-derived features (volatility, volume, etc.).
-// It uses the analytics service for higher-level analysis and trades store for trade data.
+// Extractor computes analytics-derived features (volatility, volume, time).
+// It uses the analytics service for higher-level analysis, trades store for trade data,
+// and time provider for temporal features.
 type Extractor struct {
 	analytics    analyticsTypes.Analytics
 	trades       activity.Trades
@@ -44,7 +50,8 @@ func NewExtractor(analytics analyticsTypes.Analytics, trades activity.Trades, ti
 }
 
 // Extract computes analytics features and adds them to the feature map.
-// Currently supports: volatility (5m, 1h, ratio) and volume (ratio).
+// Currently supports: volatility (5m, 1h, ratio), volume (1m, 5m, ratio, buy ratio, trade count),
+// and time-based features (hour, day of week, minute).
 func (e *Extractor) Extract(asset portfolio.Asset, featureMap map[string]float64) error {
 	// Calculate 5-minute volatility
 	vol5m, err := e.analytics.Volatility(asset, 5, analyticsTypes.AnalyticsOptions{
@@ -106,6 +113,23 @@ func (e *Extractor) Extract(asset portfolio.Asset, featureMap map[string]float64
 		}
 		featureMap[featureVolume5m], _ = vol5m.Float64()
 	}
+
+	// Time-based features
+	// Extract hour of day (0-23)
+	featureMap[featureHour] = float64(now.Hour())
+
+	// Extract day of week (0=Monday, 6=Sunday)
+	// Go's time.Weekday is 0=Sunday, so we need to convert
+	weekday := int(now.Weekday())
+	if weekday == 0 {
+		weekday = 6 // Sunday becomes 6
+	} else {
+		weekday = weekday - 1 // Monday(1)=0, Tuesday(2)=1, ..., Saturday(6)=5
+	}
+	featureMap[featureDayOfWeek] = float64(weekday)
+
+	// Extract minute of hour (0-59)
+	featureMap[featureMinute] = float64(now.Minute())
 
 	return nil
 }
