@@ -14,7 +14,6 @@ const (
 	featureLastPrice   = "last_price"
 	featureMarkPrice   = "mark_price"
 	featureIndexPrice  = "index_price"
-	featureVolume24h   = "volume_24h"
 	featureFundingRate = "funding_rate"
 )
 
@@ -36,17 +35,11 @@ func NewExtractor(market analytics.Market) *Extractor {
 // mark_price, index_price, funding_rate.
 func (e *Extractor) Extract(asset portfolio.Asset, featureMap map[string]float64) error {
 
-	// Get price data (includes last_price and volume_24h)
+	// Get last price
 	price, err := e.market.Price(asset)
 	if err == nil {
 		featureMap[featureLastPrice], _ = price.Float64()
 	}
-
-	// TODO: Extract volume_24h
-	// The data exists in connector.Price.Volume24h, but analytics.Market.Prices()
-	// only returns map[ExchangeName]numerical.Decimal (just price values).
-	// Need to extend analytics.Market interface to expose full Price struct,
-	// or inject market.MarketData store directly to access GetAssetPrice()
 
 	// Get order book for bid/ask prices
 	orderBook, err := e.market.OrderBook(asset)

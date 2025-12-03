@@ -11,7 +11,6 @@ const (
 	FeatureLastPrice   = "last_price"   // last trade price
 	FeatureMarkPrice   = "mark_price"   // exchange mark price
 	FeatureIndexPrice  = "index_price"  // underlying index price
-	FeatureVolume24h   = "volume_24h"   // 24 hour volume
 	FeatureFundingRate = "funding_rate" // current funding rate (perps)
 
 	// Orderbook metric features
