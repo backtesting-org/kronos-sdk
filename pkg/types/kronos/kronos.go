@@ -1,6 +1,7 @@
 package kronos
 
 import (
+	"github.com/backtesting-org/kronos-sdk/pkg/inference/features"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/connector"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/data/stores/market"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/kronos/analytics"
@@ -47,6 +48,12 @@ type Kronos interface {
 	// Returns a fluent API for building buy/sell signals with price targets.
 	// Example: k.Signal(strategyName).Buy(asset, exchange, qty).Build()
 	Signal(strategyName strategy.StrategyName) strategy.SignalBuilder
+
+	// Features returns the ML feature aggregator for extracting market features.
+	// Provides access to 41+ features including market data, orderbook, technical indicators,
+	// volatility, volume, price metrics, and time-based features.
+	// Example: featureMap, err := k.Features().Extract(asset)
+	Features() *features.Aggregator
 }
 
 // Universe holds the tradeable assets and exchanges available to the strategy.
