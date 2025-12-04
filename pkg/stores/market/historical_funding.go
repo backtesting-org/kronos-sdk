@@ -8,7 +8,6 @@ import (
 
 func (ds *dataStore) UpdateHistoricalFundingRates(asset portfolio.Asset, exchangeName connector.ExchangeName, rates []connector.HistoricalFundingRate) {
 	ds.mutex.Lock()
-	defer ds.mutex.Unlock()
 
 	current := ds.getHistoricalFunding()
 	updated := make(assetHistoricalFunding, len(current))
@@ -28,12 +27,14 @@ func (ds *dataStore) UpdateHistoricalFundingRates(asset portfolio.Asset, exchang
 	updated[asset] = assetRates
 
 	ds.historicalFundingRates.Store(updated)
+
+	ds.mutex.Unlock()
+
 	ds.UpdateLastUpdated(marketTypes.UpdateKey{
 		DataType: marketTypes.DataKeyHistoricalFunding,
 		Asset:    asset,
 		Exchange: exchangeName,
 	})
-	ds.notifyOrchestrator()
 }
 
 func (ds *dataStore) GetHistoricalFundingRatesForAsset(asset portfolio.Asset) marketTypes.HistoricalFundingMap {

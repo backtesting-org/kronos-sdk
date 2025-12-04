@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/backtesting-org/kronos-sdk/pkg/types/connector"
+	portfolioTypes "github.com/backtesting-org/kronos-sdk/pkg/types/data/stores/activity"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/strategy"
 )
 
@@ -25,7 +26,7 @@ func (ds *dataStore) AddOrderToStrategy(strategyName strategy.StrategyName, orde
 	execution.Orders = append(execution.Orders, order)
 
 	// Store updated map
-	updated := make(map[strategy.StrategyName]*strategy.StrategyExecution, len(current)+1)
+	updated := make(portfolioTypes.StrategyExecutionMap, len(current)+1)
 	for k, v := range current {
 		updated[k] = v
 	}
@@ -60,7 +61,7 @@ func (ds *dataStore) UpdateOrderStatus(strategyName strategy.StrategyName, order
 	}
 
 	// Store updated map
-	updated := make(map[strategy.StrategyName]*strategy.StrategyExecution, len(current))
+	updated := make(portfolioTypes.StrategyExecutionMap, len(current))
 	for k, v := range current {
 		updated[k] = v
 	}

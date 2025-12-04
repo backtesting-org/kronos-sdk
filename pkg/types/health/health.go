@@ -17,16 +17,6 @@ const (
 	DataTypePositions    DataType = "positions"
 )
 
-// ConnectionState represents the connection status
-type ConnectionState string
-
-const (
-	StateConnected    ConnectionState = "connected"
-	StateDisconnected ConnectionState = "disconnected"
-	StateConnecting   ConnectionState = "connecting"
-	StateDegraded     ConnectionState = "degraded"
-)
-
 // DataSourceType indicates how data is being fetched
 type DataSourceType string
 
@@ -57,35 +47,16 @@ type ConnectorHealth struct {
 	ErrorRate       float64
 }
 
-// SystemHealth represents overall system health
-type SystemHealth struct {
-	Connectors        map[connector.ExchangeName]*ConnectorHealth
-	TotalConnectors   int
-	HealthyConnectors int
-	OverallState      ConnectionState
-	StartedAt         time.Time
+// SystemHealthReport is an aggregated health report
+type SystemHealthReport struct {
+	OverallState    ConnectionState
+	ConnectorErrors *ConnectorErrorReport
+	DataFlowErrors  *DataFlowErrorReport
+	StartedAt       time.Time
+	HasErrors       bool
 }
 
-// HealthStore manages health status for all connectors and data flows
+// HealthStore reports aggregated system health.
 type HealthStore interface {
-	// Connector registration
-	RegisterConnector(name connector.ExchangeName)
-	UpdateConnectionState(name connector.ExchangeName, state ConnectionState)
-
-	// Data flow reporting (called by coordinators)
-	RecordDataReceived(name connector.ExchangeName, dataType DataType, source DataSourceType, latency time.Duration)
-	RecordDataError(name connector.ExchangeName, dataType DataType, err error)
-	MarkDataTypeAvailable(name connector.ExchangeName, dataType DataType, available bool)
-
-	// Health queries
-	GetConnectorHealth(name connector.ExchangeName) (*ConnectorHealth, bool)
-	GetSystemHealth() *SystemHealth
-	GetAvailableDataTypes(name connector.ExchangeName) []DataType
-	IsDataTypeHealthy(name connector.ExchangeName, dataType DataType) bool
-	GetUnhealthyConnectors() []connector.ExchangeName
-	GetDegradedDataTypes() map[connector.ExchangeName][]DataType
-
-	// Startup readiness checks
-	HasReceivedData(name connector.ExchangeName, dataType DataType) bool
-	WaitForFirstData(name connector.ExchangeName, dataType DataType, timeout time.Duration) error
+	GetSystemHealth() *SystemHealthReport
 }

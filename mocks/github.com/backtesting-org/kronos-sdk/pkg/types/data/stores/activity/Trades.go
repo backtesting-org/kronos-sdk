@@ -4,9 +4,9 @@ package activity
 
 import (
 	connector "github.com/backtesting-org/kronos-sdk/pkg/types/connector"
-	decimal "github.com/shopspring/decimal"
-
 	mock "github.com/stretchr/testify/mock"
+
+	numerical "github.com/backtesting-org/kronos-sdk/pkg/types/kronos/numerical"
 
 	portfolio "github.com/backtesting-org/kronos-sdk/pkg/types/portfolio"
 
@@ -172,18 +172,18 @@ func (_c *Trades_GetAllTrades_Call) RunAndReturn(run func() []connector.Trade) *
 }
 
 // GetTotalVolume provides a mock function with given fields: asset
-func (_m *Trades) GetTotalVolume(asset portfolio.Asset) decimal.Decimal {
+func (_m *Trades) GetTotalVolume(asset portfolio.Asset) numerical.Decimal {
 	ret := _m.Called(asset)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetTotalVolume")
 	}
 
-	var r0 decimal.Decimal
-	if rf, ok := ret.Get(0).(func(portfolio.Asset) decimal.Decimal); ok {
+	var r0 numerical.Decimal
+	if rf, ok := ret.Get(0).(func(portfolio.Asset) numerical.Decimal); ok {
 		r0 = rf(asset)
 	} else {
-		r0 = ret.Get(0).(decimal.Decimal)
+		r0 = ret.Get(0).(numerical.Decimal)
 	}
 
 	return r0
@@ -207,12 +207,12 @@ func (_c *Trades_GetTotalVolume_Call) Run(run func(asset portfolio.Asset)) *Trad
 	return _c
 }
 
-func (_c *Trades_GetTotalVolume_Call) Return(_a0 decimal.Decimal) *Trades_GetTotalVolume_Call {
+func (_c *Trades_GetTotalVolume_Call) Return(_a0 numerical.Decimal) *Trades_GetTotalVolume_Call {
 	_c.Call.Return(_a0)
 	return _c
 }
 
-func (_c *Trades_GetTotalVolume_Call) RunAndReturn(run func(portfolio.Asset) decimal.Decimal) *Trades_GetTotalVolume_Call {
+func (_c *Trades_GetTotalVolume_Call) RunAndReturn(run func(portfolio.Asset) numerical.Decimal) *Trades_GetTotalVolume_Call {
 	_c.Call.Return(run)
 	return _c
 }

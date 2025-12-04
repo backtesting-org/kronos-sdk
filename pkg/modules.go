@@ -1,6 +1,7 @@
 package packages
 
 import (
+	"github.com/backtesting-org/kronos-sdk/pkg/activity"
 	"github.com/backtesting-org/kronos-sdk/pkg/adapters"
 	"github.com/backtesting-org/kronos-sdk/pkg/analytics"
 	"github.com/backtesting-org/kronos-sdk/pkg/events"
@@ -18,6 +19,7 @@ import (
 )
 
 var Module = fx.Options(
+	activity.Module,
 	adapters.Module,
 	analytics.Module,
 	events.Module,

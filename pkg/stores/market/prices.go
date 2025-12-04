@@ -8,7 +8,6 @@ import (
 
 func (ds *dataStore) UpdateAssetPrice(asset portfolio.Asset, exchangeName connector.ExchangeName, price connector.Price) {
 	ds.mutex.Lock()
-	defer ds.mutex.Unlock()
 
 	current := ds.getPrices()
 	updated := make(assetPrices, len(current))
@@ -28,17 +27,18 @@ func (ds *dataStore) UpdateAssetPrice(asset portfolio.Asset, exchangeName connec
 	updated[asset] = assetPriceMap
 
 	ds.prices.Store(updated)
+
+	ds.mutex.Unlock()
+
 	ds.UpdateLastUpdated(marketTypes.UpdateKey{
 		DataType: marketTypes.DataKeyAssetPrice,
 		Asset:    asset,
 		Exchange: exchangeName,
 	})
-	ds.notifyOrchestrator()
 }
 
 func (ds *dataStore) UpdateAssetPrices(asset portfolio.Asset, prices map[connector.ExchangeName]connector.Price) {
 	ds.mutex.Lock()
-	defer ds.mutex.Unlock()
 
 	current := ds.getPrices()
 	updated := make(assetPrices, len(current))
@@ -55,18 +55,26 @@ func (ds *dataStore) UpdateAssetPrices(asset portfolio.Asset, prices map[connect
 		assetPriceMap[k] = v
 	}
 
+	// Collect exchanges to update after releasing the lock
+	exchangesToUpdate := make([]connector.ExchangeName, 0, len(prices))
+
 	for exchangeName, price := range prices {
 		assetPriceMap[exchangeName] = price
+		exchangesToUpdate = append(exchangesToUpdate, exchangeName)
+	}
+
+	updated[asset] = assetPriceMap
+	ds.prices.Store(updated)
+	ds.mutex.Unlock()
+
+	// Update timestamps after releasing the lock to avoid deadlock
+	for _, exchangeName := range exchangesToUpdate {
 		ds.UpdateLastUpdated(marketTypes.UpdateKey{
 			DataType: marketTypes.DataKeyAssetPrice,
 			Asset:    asset,
 			Exchange: exchangeName,
 		})
 	}
-
-	updated[asset] = assetPriceMap
-	ds.prices.Store(updated)
-	ds.notifyOrchestrator()
 }
 
 func (ds *dataStore) GetAssetPrice(asset portfolio.Asset, exchangeName connector.ExchangeName) *connector.Price {

@@ -20,7 +20,7 @@ type ingestor struct {
 	assetRegistry    registry.AssetRegistry
 	logger           logging.ApplicationLogger
 	timeProvider     temporal.TimeProvider
-	healthStore      health.HealthStore
+	healthStore      health.CoordinatorHealthStore
 	notifier         ingestors.DataUpdateNotifier
 
 	// Scheduling
@@ -36,7 +36,7 @@ func NewBatchIngestor(
 	assetRegistry registry.AssetRegistry,
 	logger logging.ApplicationLogger,
 	timeProvider temporal.TimeProvider,
-	healthStore health.HealthStore,
+	healthStore health.CoordinatorHealthStore,
 	notifier ingestors.DataUpdateNotifier,
 ) ingestors.BatchIngestor {
 	return &ingestor{

@@ -18,18 +18,6 @@ func NewStore(timeProvider temporal.TimeProvider) marketTypes.MarketData {
 	return ds
 }
 
-func (ds *dataStore) SetOrchestratorNotifier(notifier func()) {
-	ds.mutex.Lock()
-	defer ds.mutex.Unlock()
-	ds.orchestratorNotifier = notifier
-}
-
-func (ds *dataStore) notifyOrchestrator() {
-	if ds.orchestratorNotifier != nil {
-		ds.orchestratorNotifier()
-	}
-}
-
 func (ds *dataStore) Clear() {
 	ds.mutex.Lock()
 	defer ds.mutex.Unlock()

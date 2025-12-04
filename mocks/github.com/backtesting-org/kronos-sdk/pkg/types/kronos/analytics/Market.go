@@ -6,9 +6,9 @@ import (
 	connector "github.com/backtesting-org/kronos-sdk/pkg/types/connector"
 	analytics "github.com/backtesting-org/kronos-sdk/pkg/types/kronos/analytics"
 
-	decimal "github.com/shopspring/decimal"
-
 	mock "github.com/stretchr/testify/mock"
+
+	numerical "github.com/backtesting-org/kronos-sdk/pkg/types/kronos/numerical"
 
 	portfolio "github.com/backtesting-org/kronos-sdk/pkg/types/portfolio"
 )
@@ -27,7 +27,7 @@ func (_m *Market) EXPECT() *Market_Expecter {
 }
 
 // FindArbitrage provides a mock function with given fields: asset, minSpreadBps
-func (_m *Market) FindArbitrage(asset portfolio.Asset, minSpreadBps decimal.Decimal) []analytics.ArbitrageOpportunity {
+func (_m *Market) FindArbitrage(asset portfolio.Asset, minSpreadBps numerical.Decimal) []analytics.ArbitrageOpportunity {
 	ret := _m.Called(asset, minSpreadBps)
 
 	if len(ret) == 0 {
@@ -35,7 +35,7 @@ func (_m *Market) FindArbitrage(asset portfolio.Asset, minSpreadBps decimal.Deci
 	}
 
 	var r0 []analytics.ArbitrageOpportunity
-	if rf, ok := ret.Get(0).(func(portfolio.Asset, decimal.Decimal) []analytics.ArbitrageOpportunity); ok {
+	if rf, ok := ret.Get(0).(func(portfolio.Asset, numerical.Decimal) []analytics.ArbitrageOpportunity); ok {
 		r0 = rf(asset, minSpreadBps)
 	} else {
 		if ret.Get(0) != nil {
@@ -53,14 +53,14 @@ type Market_FindArbitrage_Call struct {
 
 // FindArbitrage is a helper method to define mock.On call
 //   - asset portfolio.Asset
-//   - minSpreadBps decimal.Decimal
+//   - minSpreadBps numerical.Decimal
 func (_e *Market_Expecter) FindArbitrage(asset interface{}, minSpreadBps interface{}) *Market_FindArbitrage_Call {
 	return &Market_FindArbitrage_Call{Call: _e.mock.On("FindArbitrage", asset, minSpreadBps)}
 }
 
-func (_c *Market_FindArbitrage_Call) Run(run func(asset portfolio.Asset, minSpreadBps decimal.Decimal)) *Market_FindArbitrage_Call {
+func (_c *Market_FindArbitrage_Call) Run(run func(asset portfolio.Asset, minSpreadBps numerical.Decimal)) *Market_FindArbitrage_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(portfolio.Asset), args[1].(decimal.Decimal))
+		run(args[0].(portfolio.Asset), args[1].(numerical.Decimal))
 	})
 	return _c
 }
@@ -70,7 +70,7 @@ func (_c *Market_FindArbitrage_Call) Return(_a0 []analytics.ArbitrageOpportunity
 	return _c
 }
 
-func (_c *Market_FindArbitrage_Call) RunAndReturn(run func(portfolio.Asset, decimal.Decimal) []analytics.ArbitrageOpportunity) *Market_FindArbitrage_Call {
+func (_c *Market_FindArbitrage_Call) RunAndReturn(run func(portfolio.Asset, numerical.Decimal) []analytics.ArbitrageOpportunity) *Market_FindArbitrage_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -230,7 +230,7 @@ func (_c *Market_GetAllAssetsWithFundingRates_Call) RunAndReturn(run func() []po
 }
 
 // GetTradableQuantity provides a mock function with given fields: asset, opts
-func (_m *Market) GetTradableQuantity(asset portfolio.Asset, opts ...analytics.LiquidityOptions) decimal.Decimal {
+func (_m *Market) GetTradableQuantity(asset portfolio.Asset, opts ...analytics.LiquidityOptions) numerical.Decimal {
 	_va := make([]interface{}, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
@@ -244,11 +244,11 @@ func (_m *Market) GetTradableQuantity(asset portfolio.Asset, opts ...analytics.L
 		panic("no return value specified for GetTradableQuantity")
 	}
 
-	var r0 decimal.Decimal
-	if rf, ok := ret.Get(0).(func(portfolio.Asset, ...analytics.LiquidityOptions) decimal.Decimal); ok {
+	var r0 numerical.Decimal
+	if rf, ok := ret.Get(0).(func(portfolio.Asset, ...analytics.LiquidityOptions) numerical.Decimal); ok {
 		r0 = rf(asset, opts...)
 	} else {
-		r0 = ret.Get(0).(decimal.Decimal)
+		r0 = ret.Get(0).(numerical.Decimal)
 	}
 
 	return r0
@@ -280,12 +280,12 @@ func (_c *Market_GetTradableQuantity_Call) Run(run func(asset portfolio.Asset, o
 	return _c
 }
 
-func (_c *Market_GetTradableQuantity_Call) Return(_a0 decimal.Decimal) *Market_GetTradableQuantity_Call {
+func (_c *Market_GetTradableQuantity_Call) Return(_a0 numerical.Decimal) *Market_GetTradableQuantity_Call {
 	_c.Call.Return(_a0)
 	return _c
 }
 
-func (_c *Market_GetTradableQuantity_Call) RunAndReturn(run func(portfolio.Asset, ...analytics.LiquidityOptions) decimal.Decimal) *Market_GetTradableQuantity_Call {
+func (_c *Market_GetTradableQuantity_Call) RunAndReturn(run func(portfolio.Asset, ...analytics.LiquidityOptions) numerical.Decimal) *Market_GetTradableQuantity_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -364,7 +364,7 @@ func (_c *Market_OrderBook_Call) RunAndReturn(run func(portfolio.Asset, ...analy
 }
 
 // Price provides a mock function with given fields: asset, opts
-func (_m *Market) Price(asset portfolio.Asset, opts ...analytics.MarketOptions) (decimal.Decimal, error) {
+func (_m *Market) Price(asset portfolio.Asset, opts ...analytics.MarketOptions) (numerical.Decimal, error) {
 	_va := make([]interface{}, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
@@ -378,15 +378,15 @@ func (_m *Market) Price(asset portfolio.Asset, opts ...analytics.MarketOptions) 
 		panic("no return value specified for Price")
 	}
 
-	var r0 decimal.Decimal
+	var r0 numerical.Decimal
 	var r1 error
-	if rf, ok := ret.Get(0).(func(portfolio.Asset, ...analytics.MarketOptions) (decimal.Decimal, error)); ok {
+	if rf, ok := ret.Get(0).(func(portfolio.Asset, ...analytics.MarketOptions) (numerical.Decimal, error)); ok {
 		return rf(asset, opts...)
 	}
-	if rf, ok := ret.Get(0).(func(portfolio.Asset, ...analytics.MarketOptions) decimal.Decimal); ok {
+	if rf, ok := ret.Get(0).(func(portfolio.Asset, ...analytics.MarketOptions) numerical.Decimal); ok {
 		r0 = rf(asset, opts...)
 	} else {
-		r0 = ret.Get(0).(decimal.Decimal)
+		r0 = ret.Get(0).(numerical.Decimal)
 	}
 
 	if rf, ok := ret.Get(1).(func(portfolio.Asset, ...analytics.MarketOptions) error); ok {
@@ -424,30 +424,30 @@ func (_c *Market_Price_Call) Run(run func(asset portfolio.Asset, opts ...analyti
 	return _c
 }
 
-func (_c *Market_Price_Call) Return(_a0 decimal.Decimal, _a1 error) *Market_Price_Call {
+func (_c *Market_Price_Call) Return(_a0 numerical.Decimal, _a1 error) *Market_Price_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *Market_Price_Call) RunAndReturn(run func(portfolio.Asset, ...analytics.MarketOptions) (decimal.Decimal, error)) *Market_Price_Call {
+func (_c *Market_Price_Call) RunAndReturn(run func(portfolio.Asset, ...analytics.MarketOptions) (numerical.Decimal, error)) *Market_Price_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // Prices provides a mock function with given fields: asset
-func (_m *Market) Prices(asset portfolio.Asset) map[connector.ExchangeName]decimal.Decimal {
+func (_m *Market) Prices(asset portfolio.Asset) map[connector.ExchangeName]numerical.Decimal {
 	ret := _m.Called(asset)
 
 	if len(ret) == 0 {
 		panic("no return value specified for Prices")
 	}
 
-	var r0 map[connector.ExchangeName]decimal.Decimal
-	if rf, ok := ret.Get(0).(func(portfolio.Asset) map[connector.ExchangeName]decimal.Decimal); ok {
+	var r0 map[connector.ExchangeName]numerical.Decimal
+	if rf, ok := ret.Get(0).(func(portfolio.Asset) map[connector.ExchangeName]numerical.Decimal); ok {
 		r0 = rf(asset)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(map[connector.ExchangeName]decimal.Decimal)
+			r0 = ret.Get(0).(map[connector.ExchangeName]numerical.Decimal)
 		}
 	}
 
@@ -472,12 +472,12 @@ func (_c *Market_Prices_Call) Run(run func(asset portfolio.Asset)) *Market_Price
 	return _c
 }
 
-func (_c *Market_Prices_Call) Return(_a0 map[connector.ExchangeName]decimal.Decimal) *Market_Prices_Call {
+func (_c *Market_Prices_Call) Return(_a0 map[connector.ExchangeName]numerical.Decimal) *Market_Prices_Call {
 	_c.Call.Return(_a0)
 	return _c
 }
 
-func (_c *Market_Prices_Call) RunAndReturn(run func(portfolio.Asset) map[connector.ExchangeName]decimal.Decimal) *Market_Prices_Call {
+func (_c *Market_Prices_Call) RunAndReturn(run func(portfolio.Asset) map[connector.ExchangeName]numerical.Decimal) *Market_Prices_Call {
 	_c.Call.Return(run)
 	return _c
 }

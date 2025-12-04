@@ -67,53 +67,6 @@ func (_c *Controller_IsReady_Call) RunAndReturn(run func() bool) *Controller_IsR
 	return _c
 }
 
-// Orchestrator provides a mock function with no fields
-func (_m *Controller) Orchestrator() lifecycle.Orchestrator {
-	ret := _m.Called()
-
-	if len(ret) == 0 {
-		panic("no return value specified for Orchestrator")
-	}
-
-	var r0 lifecycle.Orchestrator
-	if rf, ok := ret.Get(0).(func() lifecycle.Orchestrator); ok {
-		r0 = rf()
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(lifecycle.Orchestrator)
-		}
-	}
-
-	return r0
-}
-
-// Controller_Orchestrator_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Orchestrator'
-type Controller_Orchestrator_Call struct {
-	*mock.Call
-}
-
-// Orchestrator is a helper method to define mock.On call
-func (_e *Controller_Expecter) Orchestrator() *Controller_Orchestrator_Call {
-	return &Controller_Orchestrator_Call{Call: _e.mock.On("Orchestrator")}
-}
-
-func (_c *Controller_Orchestrator_Call) Run(run func()) *Controller_Orchestrator_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run()
-	})
-	return _c
-}
-
-func (_c *Controller_Orchestrator_Call) Return(_a0 lifecycle.Orchestrator) *Controller_Orchestrator_Call {
-	_c.Call.Return(_a0)
-	return _c
-}
-
-func (_c *Controller_Orchestrator_Call) RunAndReturn(run func() lifecycle.Orchestrator) *Controller_Orchestrator_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
 // Start provides a mock function with given fields: ctx
 func (_m *Controller) Start(ctx context.Context) error {
 	ret := _m.Called(ctx)

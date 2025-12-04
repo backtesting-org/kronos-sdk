@@ -32,8 +32,6 @@ type MarketData interface {
 	GetKlines(asset portfolio.Asset, exchangeName connector.ExchangeName, interval string, limit int) []connector.Kline
 	GetKlinesSince(asset portfolio.Asset, exchangeName connector.ExchangeName, interval string, since time.Time) []connector.Kline
 
-	SetOrchestratorNotifier(notifier func())
-
 	GetLastUpdated() LastUpdatedMap
 	UpdateLastUpdated(key UpdateKey)
 

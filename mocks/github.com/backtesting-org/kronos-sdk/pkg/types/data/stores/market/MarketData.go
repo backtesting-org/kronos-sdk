@@ -641,39 +641,6 @@ func (_c *MarketData_GetOrderBooks_Call) RunAndReturn(run func(portfolio.Asset) 
 	return _c
 }
 
-// SetOrchestratorNotifier provides a mock function with given fields: notifier
-func (_m *MarketData) SetOrchestratorNotifier(notifier func()) {
-	_m.Called(notifier)
-}
-
-// MarketData_SetOrchestratorNotifier_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetOrchestratorNotifier'
-type MarketData_SetOrchestratorNotifier_Call struct {
-	*mock.Call
-}
-
-// SetOrchestratorNotifier is a helper method to define mock.On call
-//   - notifier func()
-func (_e *MarketData_Expecter) SetOrchestratorNotifier(notifier interface{}) *MarketData_SetOrchestratorNotifier_Call {
-	return &MarketData_SetOrchestratorNotifier_Call{Call: _e.mock.On("SetOrchestratorNotifier", notifier)}
-}
-
-func (_c *MarketData_SetOrchestratorNotifier_Call) Run(run func(notifier func())) *MarketData_SetOrchestratorNotifier_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(func()))
-	})
-	return _c
-}
-
-func (_c *MarketData_SetOrchestratorNotifier_Call) Return() *MarketData_SetOrchestratorNotifier_Call {
-	_c.Call.Return()
-	return _c
-}
-
-func (_c *MarketData_SetOrchestratorNotifier_Call) RunAndReturn(run func(func())) *MarketData_SetOrchestratorNotifier_Call {
-	_c.Run(run)
-	return _c
-}
-
 // UpdateAssetPrice provides a mock function with given fields: asset, exchangeName, price
 func (_m *MarketData) UpdateAssetPrice(asset portfolio.Asset, exchangeName connector.ExchangeName, price connector.Price) {
 	_m.Called(asset, exchangeName, price)

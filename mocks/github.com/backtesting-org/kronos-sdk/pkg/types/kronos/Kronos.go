@@ -3,7 +3,10 @@
 package kronos
 
 import (
+	activity "github.com/backtesting-org/kronos-sdk/pkg/types/kronos/activity"
 	analytics "github.com/backtesting-org/kronos-sdk/pkg/types/kronos/analytics"
+
+	kronos "github.com/backtesting-org/kronos-sdk/pkg/types/kronos"
 
 	logging "github.com/backtesting-org/kronos-sdk/pkg/types/logging"
 
@@ -27,6 +30,53 @@ type Kronos_Expecter struct {
 
 func (_m *Kronos) EXPECT() *Kronos_Expecter {
 	return &Kronos_Expecter{mock: &_m.Mock}
+}
+
+// Activity provides a mock function with no fields
+func (_m *Kronos) Activity() activity.Activity {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Activity")
+	}
+
+	var r0 activity.Activity
+	if rf, ok := ret.Get(0).(func() activity.Activity); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(activity.Activity)
+		}
+	}
+
+	return r0
+}
+
+// Kronos_Activity_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Activity'
+type Kronos_Activity_Call struct {
+	*mock.Call
+}
+
+// Activity is a helper method to define mock.On call
+func (_e *Kronos_Expecter) Activity() *Kronos_Activity_Call {
+	return &Kronos_Activity_Call{Call: _e.mock.On("Activity")}
+}
+
+func (_c *Kronos_Activity_Call) Run(run func()) *Kronos_Activity_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *Kronos_Activity_Call) Return(_a0 activity.Activity) *Kronos_Activity_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *Kronos_Activity_Call) RunAndReturn(run func() activity.Activity) *Kronos_Activity_Call {
+	_c.Call.Return(run)
+	return _c
 }
 
 // Analytics provides a mock function with no fields
@@ -354,6 +404,51 @@ func (_c *Kronos_Store_Call) Return(_a0 market.MarketData) *Kronos_Store_Call {
 }
 
 func (_c *Kronos_Store_Call) RunAndReturn(run func() market.MarketData) *Kronos_Store_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Universe provides a mock function with no fields
+func (_m *Kronos) Universe() kronos.Universe {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Universe")
+	}
+
+	var r0 kronos.Universe
+	if rf, ok := ret.Get(0).(func() kronos.Universe); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(kronos.Universe)
+	}
+
+	return r0
+}
+
+// Kronos_Universe_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Universe'
+type Kronos_Universe_Call struct {
+	*mock.Call
+}
+
+// Universe is a helper method to define mock.On call
+func (_e *Kronos_Expecter) Universe() *Kronos_Universe_Call {
+	return &Kronos_Universe_Call{Call: _e.mock.On("Universe")}
+}
+
+func (_c *Kronos_Universe_Call) Run(run func()) *Kronos_Universe_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *Kronos_Universe_Call) Return(_a0 kronos.Universe) *Kronos_Universe_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *Kronos_Universe_Call) RunAndReturn(run func() kronos.Universe) *Kronos_Universe_Call {
 	_c.Call.Return(run)
 	return _c
 }

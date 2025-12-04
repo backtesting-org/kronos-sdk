@@ -76,17 +76,15 @@ func (c *controller) Start(ctx context.Context) error {
 	c.logger.Info("⚡ Starting data coordinators...")
 
 	// Start position coordinator (if needed)
-	if c.positionCoordinator != nil {
-		c.logger.Info("  📊 Starting position tracking...")
-		if err := c.positionCoordinator.Start(ctx); err != nil {
-			c.stateMu.Lock()
-			c.state = lifecycleTypes.StateCreated
-			c.stateMu.Unlock()
-			return fmt.Errorf("failed to start position coordinator: %w", err)
-		}
-		c.logger.Info("  ✓ Position tracking ready")
+	c.logger.Info("  📊 Starting position tracking...")
+	if err := c.positionCoordinator.Start(ctx); err != nil {
+		c.stateMu.Lock()
+		c.state = lifecycleTypes.StateCreated
+		c.stateMu.Unlock()
+		return fmt.Errorf("failed to start position coordinator: %w", err)
 	}
-
+	c.logger.Info("  ✓ Position tracking ready")
+	
 	// Start market data ingestion
 	c.logger.Info("  📈 Starting market data ingestion...")
 	if err := c.marketCoordinator.StartDataCollection(ctx); err != nil {
@@ -196,19 +194,12 @@ func (c *controller) validateConnectorsReady() error {
 
 	c.logger.Info("✓ Validated %d connector(s) ready", len(readyConnectors))
 
-	// Register connectors with health store
-	for _, conn := range readyConnectors {
-		info := conn.GetConnectorInfo()
-		c.healthStore.RegisterConnector(info.Name)
-		c.logger.Info("  ✓ %s registered", info.Name)
-	}
-
 	return nil
 }
 
-// monitorHealth continuously monitors system health and logs degraded services
+// monitorHealth continuously monitors system health and reports aggregated errors
 func (c *controller) monitorHealth(ctx context.Context) {
-	ticker := time.NewTicker(10 * time.Second)
+	ticker := time.NewTicker(1 * time.Second)
 	defer ticker.Stop()
 
 	for {
@@ -216,22 +207,28 @@ func (c *controller) monitorHealth(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		case <-ticker.C:
-			// Check for degraded or unhealthy connectors
-			unhealthy := c.healthStore.GetUnhealthyConnectors()
-			if len(unhealthy) > 0 {
-				c.logger.Warn("⚠️ Unhealthy connectors detected:")
-				for _, name := range unhealthy {
-					c.logger.Warn("  - %s", name)
-				}
-			}
+			report := c.healthStore.GetSystemHealth()
 
-			// Check for degraded data types across all connectors
-			degraded := c.healthStore.GetDegradedDataTypes()
-			if len(degraded) > 0 {
-				c.logger.Warn("⚠️  Degraded data types:")
-				for connector, dataTypes := range degraded {
-					for _, dt := range dataTypes {
-						c.logger.Warn("  - %s: %s", connector, dt)
+			fmt.Println("Starting system health monitoring...")
+
+			if report.HasErrors {
+				c.logger.Warn("⚠️  System health report:")
+
+				// Log connector errors
+				if len(report.ConnectorErrors.Errors) > 0 {
+					c.logger.Warn("  🔴 Connector errors:")
+					for connector, err := range report.ConnectorErrors.Errors {
+						c.logger.Warn("    - %s [%s]: %v", connector, err.State, err.Error)
+					}
+				}
+
+				// Log data flow errors
+				if len(report.DataFlowErrors.Errors) > 0 {
+					c.logger.Warn("  🟡 Data flow errors:")
+					for connector, dataTypeErrors := range report.DataFlowErrors.Errors {
+						for dataType, err := range dataTypeErrors {
+							c.logger.Warn("    - %s:%s [%d errors]: %v", connector, dataType, err.ErrorCount, err.Error)
+						}
 					}
 				}
 			}

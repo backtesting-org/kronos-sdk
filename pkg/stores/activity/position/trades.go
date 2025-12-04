@@ -2,6 +2,7 @@ package position
 
 import (
 	"github.com/backtesting-org/kronos-sdk/pkg/types/connector"
+	portfolioTypes "github.com/backtesting-org/kronos-sdk/pkg/types/data/stores/activity"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/strategy"
 )
 
@@ -23,7 +24,7 @@ func (ds *dataStore) AddTradeToStrategy(strategyName strategy.StrategyName, trad
 	execution.Trades = append(execution.Trades, trade)
 
 	// Store updated map
-	updated := make(map[strategy.StrategyName]*strategy.StrategyExecution, len(current)+1)
+	updated := make(portfolioTypes.StrategyExecutionMap, len(current)+1)
 	for k, v := range current {
 		updated[k] = v
 	}

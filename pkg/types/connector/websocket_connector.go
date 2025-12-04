@@ -1,8 +1,6 @@
 package connector
 
 import (
-	"context"
-
 	"github.com/backtesting-org/kronos-sdk/pkg/types/portfolio"
 )
 
@@ -11,7 +9,7 @@ type WebSocketConnector interface {
 	Connector
 
 	// WebSocket lifecycle management
-	StartWebSocket(ctx context.Context) error
+	StartWebSocket() error
 	StopWebSocket() error
 	IsWebSocketConnected() bool
 
@@ -28,11 +26,14 @@ type WebSocketConnector interface {
 	UnsubscribePositions(asset portfolio.Asset, instrumentType Instrument) error
 	UnsubscribeAccountBalance() error
 
-	// Data channels - all required for RealtimeIngestor
-	OrderBookUpdates() <-chan OrderBook
+	// Data access - returns map of channelKey -> channel
+	// channelKey format varies by data type (e.g., "BTC-PERP", "ETH-1m")
+	GetOrderBookChannels() map[string]<-chan OrderBook
+	GetKlineChannels() map[string]<-chan Kline
+
+	// Single-channel data access (for trades/positions/account balance)
 	TradeUpdates() <-chan Trade
 	PositionUpdates() <-chan Position
 	AccountBalanceUpdates() <-chan AccountBalance
-	KlineUpdates() <-chan Kline
 	ErrorChannel() <-chan error
 }

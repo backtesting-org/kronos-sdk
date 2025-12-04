@@ -4,9 +4,9 @@ package analytics
 
 import (
 	analytics "github.com/backtesting-org/kronos-sdk/pkg/types/kronos/analytics"
-	decimal "github.com/shopspring/decimal"
-
 	mock "github.com/stretchr/testify/mock"
+
+	numerical "github.com/backtesting-org/kronos-sdk/pkg/types/kronos/numerical"
 
 	portfolio "github.com/backtesting-org/kronos-sdk/pkg/types/portfolio"
 )
@@ -25,7 +25,7 @@ func (_m *Indicators) EXPECT() *Indicators_Expecter {
 }
 
 // ATR provides a mock function with given fields: asset, period, opts
-func (_m *Indicators) ATR(asset portfolio.Asset, period int, opts ...analytics.IndicatorOptions) (decimal.Decimal, error) {
+func (_m *Indicators) ATR(asset portfolio.Asset, period int, opts ...analytics.IndicatorOptions) (numerical.Decimal, error) {
 	_va := make([]interface{}, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
@@ -39,15 +39,15 @@ func (_m *Indicators) ATR(asset portfolio.Asset, period int, opts ...analytics.I
 		panic("no return value specified for ATR")
 	}
 
-	var r0 decimal.Decimal
+	var r0 numerical.Decimal
 	var r1 error
-	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) (decimal.Decimal, error)); ok {
+	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) (numerical.Decimal, error)); ok {
 		return rf(asset, period, opts...)
 	}
-	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) decimal.Decimal); ok {
+	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) numerical.Decimal); ok {
 		r0 = rf(asset, period, opts...)
 	} else {
-		r0 = ret.Get(0).(decimal.Decimal)
+		r0 = ret.Get(0).(numerical.Decimal)
 	}
 
 	if rf, ok := ret.Get(1).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) error); ok {
@@ -86,12 +86,12 @@ func (_c *Indicators_ATR_Call) Run(run func(asset portfolio.Asset, period int, o
 	return _c
 }
 
-func (_c *Indicators_ATR_Call) Return(_a0 decimal.Decimal, _a1 error) *Indicators_ATR_Call {
+func (_c *Indicators_ATR_Call) Return(_a0 numerical.Decimal, _a1 error) *Indicators_ATR_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *Indicators_ATR_Call) RunAndReturn(run func(portfolio.Asset, int, ...analytics.IndicatorOptions) (decimal.Decimal, error)) *Indicators_ATR_Call {
+func (_c *Indicators_ATR_Call) RunAndReturn(run func(portfolio.Asset, int, ...analytics.IndicatorOptions) (numerical.Decimal, error)) *Indicators_ATR_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -172,7 +172,7 @@ func (_c *Indicators_BollingerBands_Call) RunAndReturn(run func(portfolio.Asset,
 }
 
 // EMA provides a mock function with given fields: asset, period, opts
-func (_m *Indicators) EMA(asset portfolio.Asset, period int, opts ...analytics.IndicatorOptions) (decimal.Decimal, error) {
+func (_m *Indicators) EMA(asset portfolio.Asset, period int, opts ...analytics.IndicatorOptions) (numerical.Decimal, error) {
 	_va := make([]interface{}, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
@@ -186,15 +186,15 @@ func (_m *Indicators) EMA(asset portfolio.Asset, period int, opts ...analytics.I
 		panic("no return value specified for EMA")
 	}
 
-	var r0 decimal.Decimal
+	var r0 numerical.Decimal
 	var r1 error
-	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) (decimal.Decimal, error)); ok {
+	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) (numerical.Decimal, error)); ok {
 		return rf(asset, period, opts...)
 	}
-	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) decimal.Decimal); ok {
+	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) numerical.Decimal); ok {
 		r0 = rf(asset, period, opts...)
 	} else {
-		r0 = ret.Get(0).(decimal.Decimal)
+		r0 = ret.Get(0).(numerical.Decimal)
 	}
 
 	if rf, ok := ret.Get(1).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) error); ok {
@@ -233,12 +233,12 @@ func (_c *Indicators_EMA_Call) Run(run func(asset portfolio.Asset, period int, o
 	return _c
 }
 
-func (_c *Indicators_EMA_Call) Return(_a0 decimal.Decimal, _a1 error) *Indicators_EMA_Call {
+func (_c *Indicators_EMA_Call) Return(_a0 numerical.Decimal, _a1 error) *Indicators_EMA_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *Indicators_EMA_Call) RunAndReturn(run func(portfolio.Asset, int, ...analytics.IndicatorOptions) (decimal.Decimal, error)) *Indicators_EMA_Call {
+func (_c *Indicators_EMA_Call) RunAndReturn(run func(portfolio.Asset, int, ...analytics.IndicatorOptions) (numerical.Decimal, error)) *Indicators_EMA_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -320,7 +320,7 @@ func (_c *Indicators_MACD_Call) RunAndReturn(run func(portfolio.Asset, int, int,
 }
 
 // RSI provides a mock function with given fields: asset, period, opts
-func (_m *Indicators) RSI(asset portfolio.Asset, period int, opts ...analytics.IndicatorOptions) (decimal.Decimal, error) {
+func (_m *Indicators) RSI(asset portfolio.Asset, period int, opts ...analytics.IndicatorOptions) (numerical.Decimal, error) {
 	_va := make([]interface{}, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
@@ -334,15 +334,15 @@ func (_m *Indicators) RSI(asset portfolio.Asset, period int, opts ...analytics.I
 		panic("no return value specified for RSI")
 	}
 
-	var r0 decimal.Decimal
+	var r0 numerical.Decimal
 	var r1 error
-	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) (decimal.Decimal, error)); ok {
+	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) (numerical.Decimal, error)); ok {
 		return rf(asset, period, opts...)
 	}
-	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) decimal.Decimal); ok {
+	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) numerical.Decimal); ok {
 		r0 = rf(asset, period, opts...)
 	} else {
-		r0 = ret.Get(0).(decimal.Decimal)
+		r0 = ret.Get(0).(numerical.Decimal)
 	}
 
 	if rf, ok := ret.Get(1).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) error); ok {
@@ -381,18 +381,18 @@ func (_c *Indicators_RSI_Call) Run(run func(asset portfolio.Asset, period int, o
 	return _c
 }
 
-func (_c *Indicators_RSI_Call) Return(_a0 decimal.Decimal, _a1 error) *Indicators_RSI_Call {
+func (_c *Indicators_RSI_Call) Return(_a0 numerical.Decimal, _a1 error) *Indicators_RSI_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *Indicators_RSI_Call) RunAndReturn(run func(portfolio.Asset, int, ...analytics.IndicatorOptions) (decimal.Decimal, error)) *Indicators_RSI_Call {
+func (_c *Indicators_RSI_Call) RunAndReturn(run func(portfolio.Asset, int, ...analytics.IndicatorOptions) (numerical.Decimal, error)) *Indicators_RSI_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // SMA provides a mock function with given fields: asset, period, opts
-func (_m *Indicators) SMA(asset portfolio.Asset, period int, opts ...analytics.IndicatorOptions) (decimal.Decimal, error) {
+func (_m *Indicators) SMA(asset portfolio.Asset, period int, opts ...analytics.IndicatorOptions) (numerical.Decimal, error) {
 	_va := make([]interface{}, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
@@ -406,15 +406,15 @@ func (_m *Indicators) SMA(asset portfolio.Asset, period int, opts ...analytics.I
 		panic("no return value specified for SMA")
 	}
 
-	var r0 decimal.Decimal
+	var r0 numerical.Decimal
 	var r1 error
-	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) (decimal.Decimal, error)); ok {
+	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) (numerical.Decimal, error)); ok {
 		return rf(asset, period, opts...)
 	}
-	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) decimal.Decimal); ok {
+	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) numerical.Decimal); ok {
 		r0 = rf(asset, period, opts...)
 	} else {
-		r0 = ret.Get(0).(decimal.Decimal)
+		r0 = ret.Get(0).(numerical.Decimal)
 	}
 
 	if rf, ok := ret.Get(1).(func(portfolio.Asset, int, ...analytics.IndicatorOptions) error); ok {
@@ -453,12 +453,12 @@ func (_c *Indicators_SMA_Call) Run(run func(asset portfolio.Asset, period int, o
 	return _c
 }
 
-func (_c *Indicators_SMA_Call) Return(_a0 decimal.Decimal, _a1 error) *Indicators_SMA_Call {
+func (_c *Indicators_SMA_Call) Return(_a0 numerical.Decimal, _a1 error) *Indicators_SMA_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *Indicators_SMA_Call) RunAndReturn(run func(portfolio.Asset, int, ...analytics.IndicatorOptions) (decimal.Decimal, error)) *Indicators_SMA_Call {
+func (_c *Indicators_SMA_Call) RunAndReturn(run func(portfolio.Asset, int, ...analytics.IndicatorOptions) (numerical.Decimal, error)) *Indicators_SMA_Call {
 	_c.Call.Return(run)
 	return _c
 }

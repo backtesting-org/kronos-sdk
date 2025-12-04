@@ -5,5 +5,7 @@ import (
 )
 
 var Module = fx.Module("health",
+	fx.Provide(NewConnectorHealthStore),
+	fx.Provide(NewCoordinatorHealthStore),
 	fx.Provide(NewHealthStore),
 )

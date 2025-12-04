@@ -200,53 +200,6 @@ func (_c *Strategy_GetName_Call) RunAndReturn(run func() strategy.StrategyName) 
 	return _c
 }
 
-// GetRequiredAssets provides a mock function with no fields
-func (_m *Strategy) GetRequiredAssets() []strategy.RequiredAsset {
-	ret := _m.Called()
-
-	if len(ret) == 0 {
-		panic("no return value specified for GetRequiredAssets")
-	}
-
-	var r0 []strategy.RequiredAsset
-	if rf, ok := ret.Get(0).(func() []strategy.RequiredAsset); ok {
-		r0 = rf()
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]strategy.RequiredAsset)
-		}
-	}
-
-	return r0
-}
-
-// Strategy_GetRequiredAssets_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetRequiredAssets'
-type Strategy_GetRequiredAssets_Call struct {
-	*mock.Call
-}
-
-// GetRequiredAssets is a helper method to define mock.On call
-func (_e *Strategy_Expecter) GetRequiredAssets() *Strategy_GetRequiredAssets_Call {
-	return &Strategy_GetRequiredAssets_Call{Call: _e.mock.On("GetRequiredAssets")}
-}
-
-func (_c *Strategy_GetRequiredAssets_Call) Run(run func()) *Strategy_GetRequiredAssets_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run()
-	})
-	return _c
-}
-
-func (_c *Strategy_GetRequiredAssets_Call) Return(_a0 []strategy.RequiredAsset) *Strategy_GetRequiredAssets_Call {
-	_c.Call.Return(_a0)
-	return _c
-}
-
-func (_c *Strategy_GetRequiredAssets_Call) RunAndReturn(run func() []strategy.RequiredAsset) *Strategy_GetRequiredAssets_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
 // GetRiskLevel provides a mock function with no fields
 func (_m *Strategy) GetRiskLevel() strategy.RiskLevel {
 	ret := _m.Called()

@@ -1,7 +1,6 @@
 package kronos
 
 import (
-	"github.com/backtesting-org/kronos-sdk/kronos/trade"
 	packages "github.com/backtesting-org/kronos-sdk/pkg"
 	"go.uber.org/fx"
 )
@@ -11,15 +10,9 @@ var Module = fx.Module("kronos",
 	// Include all pkg modules
 	packages.Module,
 
-	// Provide the trade service
-	fx.Provide(trade.NewTradeService),
-
 	// Provide the universe provider (caches trading universe)
 	fx.Provide(NewUniverseProvider),
 
 	// Provide the main Kronos context
 	fx.Provide(NewKronos),
-
-	// Provide the executor (only used by orchestrator)
-	fx.Provide(NewKronosExecutor),
 )

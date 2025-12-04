@@ -4,9 +4,9 @@ package analytics
 
 import (
 	analytics "github.com/backtesting-org/kronos-sdk/pkg/types/kronos/analytics"
-	decimal "github.com/shopspring/decimal"
-
 	mock "github.com/stretchr/testify/mock"
+
+	numerical "github.com/backtesting-org/kronos-sdk/pkg/types/kronos/numerical"
 
 	portfolio "github.com/backtesting-org/kronos-sdk/pkg/types/portfolio"
 )
@@ -173,7 +173,7 @@ func (_c *Analytics_Trend_Call) RunAndReturn(run func(portfolio.Asset, int, ...a
 }
 
 // Volatility provides a mock function with given fields: asset, period, opts
-func (_m *Analytics) Volatility(asset portfolio.Asset, period int, opts ...analytics.AnalyticsOptions) (decimal.Decimal, error) {
+func (_m *Analytics) Volatility(asset portfolio.Asset, period int, opts ...analytics.AnalyticsOptions) (numerical.Decimal, error) {
 	_va := make([]interface{}, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
@@ -187,15 +187,15 @@ func (_m *Analytics) Volatility(asset portfolio.Asset, period int, opts ...analy
 		panic("no return value specified for Volatility")
 	}
 
-	var r0 decimal.Decimal
+	var r0 numerical.Decimal
 	var r1 error
-	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.AnalyticsOptions) (decimal.Decimal, error)); ok {
+	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.AnalyticsOptions) (numerical.Decimal, error)); ok {
 		return rf(asset, period, opts...)
 	}
-	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.AnalyticsOptions) decimal.Decimal); ok {
+	if rf, ok := ret.Get(0).(func(portfolio.Asset, int, ...analytics.AnalyticsOptions) numerical.Decimal); ok {
 		r0 = rf(asset, period, opts...)
 	} else {
-		r0 = ret.Get(0).(decimal.Decimal)
+		r0 = ret.Get(0).(numerical.Decimal)
 	}
 
 	if rf, ok := ret.Get(1).(func(portfolio.Asset, int, ...analytics.AnalyticsOptions) error); ok {
@@ -234,12 +234,12 @@ func (_c *Analytics_Volatility_Call) Run(run func(asset portfolio.Asset, period 
 	return _c
 }
 
-func (_c *Analytics_Volatility_Call) Return(_a0 decimal.Decimal, _a1 error) *Analytics_Volatility_Call {
+func (_c *Analytics_Volatility_Call) Return(_a0 numerical.Decimal, _a1 error) *Analytics_Volatility_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *Analytics_Volatility_Call) RunAndReturn(run func(portfolio.Asset, int, ...analytics.AnalyticsOptions) (decimal.Decimal, error)) *Analytics_Volatility_Call {
+func (_c *Analytics_Volatility_Call) RunAndReturn(run func(portfolio.Asset, int, ...analytics.AnalyticsOptions) (numerical.Decimal, error)) *Analytics_Volatility_Call {
 	_c.Call.Return(run)
 	return _c
 }

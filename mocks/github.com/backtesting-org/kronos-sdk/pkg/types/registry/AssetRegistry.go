@@ -166,34 +166,50 @@ func (_c *AssetRegistry_GetRequiredAssets_Call) RunAndReturn(run func() []portfo
 	return _c
 }
 
-// RefreshAssets provides a mock function with no fields
-func (_m *AssetRegistry) RefreshAssets() {
-	_m.Called()
+// RegisterAsset provides a mock function with given fields: asset, instruments
+func (_m *AssetRegistry) RegisterAsset(asset portfolio.Asset, instruments ...connector.Instrument) {
+	_va := make([]interface{}, len(instruments))
+	for _i := range instruments {
+		_va[_i] = instruments[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, asset)
+	_ca = append(_ca, _va...)
+	_m.Called(_ca...)
 }
 
-// AssetRegistry_RefreshAssets_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RefreshAssets'
-type AssetRegistry_RefreshAssets_Call struct {
+// AssetRegistry_RegisterAsset_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RegisterAsset'
+type AssetRegistry_RegisterAsset_Call struct {
 	*mock.Call
 }
 
-// RefreshAssets is a helper method to define mock.On call
-func (_e *AssetRegistry_Expecter) RefreshAssets() *AssetRegistry_RefreshAssets_Call {
-	return &AssetRegistry_RefreshAssets_Call{Call: _e.mock.On("RefreshAssets")}
+// RegisterAsset is a helper method to define mock.On call
+//   - asset portfolio.Asset
+//   - instruments ...connector.Instrument
+func (_e *AssetRegistry_Expecter) RegisterAsset(asset interface{}, instruments ...interface{}) *AssetRegistry_RegisterAsset_Call {
+	return &AssetRegistry_RegisterAsset_Call{Call: _e.mock.On("RegisterAsset",
+		append([]interface{}{asset}, instruments...)...)}
 }
 
-func (_c *AssetRegistry_RefreshAssets_Call) Run(run func()) *AssetRegistry_RefreshAssets_Call {
+func (_c *AssetRegistry_RegisterAsset_Call) Run(run func(asset portfolio.Asset, instruments ...connector.Instrument)) *AssetRegistry_RegisterAsset_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run()
+		variadicArgs := make([]connector.Instrument, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(connector.Instrument)
+			}
+		}
+		run(args[0].(portfolio.Asset), variadicArgs...)
 	})
 	return _c
 }
 
-func (_c *AssetRegistry_RefreshAssets_Call) Return() *AssetRegistry_RefreshAssets_Call {
+func (_c *AssetRegistry_RegisterAsset_Call) Return() *AssetRegistry_RegisterAsset_Call {
 	_c.Call.Return()
 	return _c
 }
 
-func (_c *AssetRegistry_RefreshAssets_Call) RunAndReturn(run func()) *AssetRegistry_RefreshAssets_Call {
+func (_c *AssetRegistry_RegisterAsset_Call) RunAndReturn(run func(portfolio.Asset, ...connector.Instrument)) *AssetRegistry_RegisterAsset_Call {
 	_c.Run(run)
 	return _c
 }

@@ -7,7 +7,14 @@ generate-proto:
 		grpc/proto/inference.proto
 	@echo "Generated gRPC code successfully"
 
+.PHONY: generate-mocks
+generate-mocks:
+	@echo "Generating mocks..."
+	mockery
+	@echo "Generated mocks successfully"
+
 .PHONY: help
 help:
 	@echo "Available targets:"
 	@echo "  generate-proto  - Generate Go code from proto files"
+	@echo "  generate-mocks  - Generate mocks from interfaces"
