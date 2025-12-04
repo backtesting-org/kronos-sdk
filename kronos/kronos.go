@@ -1,6 +1,7 @@
 package kronos
 
 import (
+	"github.com/backtesting-org/kronos-sdk/pkg/inference/features"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/data/stores/market"
 	kronosTypes "github.com/backtesting-org/kronos-sdk/pkg/types/kronos"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/kronos/analytics"
@@ -19,6 +20,7 @@ type kronos struct {
 	analytics        analytics.Analytics
 	market           analytics.Market
 	signal           strategy.SignalFactory
+	featureAggregator *features.Aggregator
 }
 
 // NewKronos creates a new Kronos context with injected services.
@@ -31,6 +33,7 @@ func NewKronos(
 	analyticsService analytics.Analytics,
 	marketService analytics.Market,
 	signal strategy.SignalFactory,
+	featureAggregator *features.Aggregator,
 ) kronosTypes.Kronos {
 	return &kronos{
 		store:            store,
@@ -40,6 +43,7 @@ func NewKronos(
 		market:           marketService,
 		analytics:        analyticsService,
 		signal:           signal,
+		featureAggregator: featureAggregator,
 	}
 }
 
@@ -85,4 +89,12 @@ func (k *kronos) Signal(strategyName strategy.StrategyName) strategy.SignalBuild
 // Data is cached since it does not change after initialization.
 func (k *kronos) Universe() kronosTypes.Universe {
 	return k.universeProvider.Universe()
+}
+
+// Features returns the ML feature aggregator for extracting market features.
+// Provides access to 41+ features including market data, orderbook, technical indicators,
+// volatility, volume, price metrics, and time-based features.
+// Usage: featureMap, err := k.Features().Extract(asset)
+func (k *kronos) Features() *features.Aggregator {
+	return k.featureAggregator
 }
