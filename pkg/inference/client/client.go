@@ -5,6 +5,8 @@ import (
 
 	pb "github.com/backtesting-org/kronos-sdk/grpc/gen/inference"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/portfolio"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // InferenceClient provides ML inference capabilities by communicating with
@@ -21,8 +23,25 @@ type Client struct {
 	grpcClient pb.ModelInferenceClient
 }
 
-// NewClient creates a new inference client that communicates with the gRPC server.
-func NewClient(grpcClient pb.ModelInferenceClient) *Client {
+// NewClient creates a new inference client from an endpoint address.
+// Example: client.NewClient("localhost:50051")
+func NewClient(endpoint string) (*Client, error) {
+	conn, err := grpc.NewClient(
+		endpoint,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Client{
+		grpcClient: pb.NewModelInferenceClient(conn),
+	}, nil
+}
+
+// NewClientFromGRPC creates a new inference client from an existing gRPC client.
+// This is useful for advanced users who want custom gRPC options.
+func NewClientFromGRPC(grpcClient pb.ModelInferenceClient) *Client {
 	return &Client{
 		grpcClient: grpcClient,
 	}
