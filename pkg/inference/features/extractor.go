@@ -15,6 +15,12 @@ type Extractor interface {
 	Extract(asset portfolio.Asset, features map[string]float64) error
 }
 
+// FeatureAggregator combines multiple extractors into a single feature extraction pipeline.
+type FeatureAggregator interface {
+	// Extract runs all registered extractors for the given asset and returns the combined feature map.
+	Extract(asset portfolio.Asset) (map[string]float64, error)
+}
+
 // AggregatorParams defines the dependencies for the feature aggregator.
 type AggregatorParams struct {
 	fx.In

@@ -20,7 +20,7 @@ type kronos struct {
 	analytics        analytics.Analytics
 	market           analytics.Market
 	signal           strategy.SignalFactory
-	featureAggregator *features.Aggregator
+	featureAggregator features.FeatureAggregator
 }
 
 // NewKronos creates a new Kronos context with injected services.
@@ -33,7 +33,7 @@ func NewKronos(
 	analyticsService analytics.Analytics,
 	marketService analytics.Market,
 	signal strategy.SignalFactory,
-	featureAggregator *features.Aggregator,
+	featureAggregator features.FeatureAggregator,
 ) kronosTypes.Kronos {
 	return &kronos{
 		store:            store,
@@ -95,6 +95,6 @@ func (k *kronos) Universe() kronosTypes.Universe {
 // Provides access to 41+ features including market data, orderbook, technical indicators,
 // volatility, volume, price metrics, and time-based features.
 // Usage: featureMap, err := k.Features().Extract(asset)
-func (k *kronos) Features() *features.Aggregator {
+func (k *kronos) Features() features.FeatureAggregator {
 	return k.featureAggregator
 }

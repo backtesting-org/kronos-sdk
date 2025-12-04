@@ -53,7 +53,7 @@ type Kronos interface {
 	// Provides access to 41+ features including market data, orderbook, technical indicators,
 	// volatility, volume, price metrics, and time-based features.
 	// Example: featureMap, err := k.Features().Extract(asset)
-	Features() *features.Aggregator
+	Features() features.FeatureAggregator
 }
 
 // Universe holds the tradeable assets and exchanges available to the strategy.

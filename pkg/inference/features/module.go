@@ -13,7 +13,12 @@ import (
 // This includes the aggregator and all feature extractors.
 // Individual feature extractor sub-modules will be added here as they are implemented.
 var Module = fx.Module("inference-features",
-	fx.Provide(NewAggregator),
+	fx.Provide(
+		fx.Annotate(
+			NewAggregator,
+			fx.As(new(FeatureAggregator)),
+		),
+	),
 	// Feature extractor sub-modules:
 	market.Module,     // Price data, funding rates
 	technical.Module,  // Technical indicators (RSI, MACD, BB, etc.)
