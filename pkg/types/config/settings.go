@@ -16,9 +16,10 @@ type Configuration interface {
 
 // Settings represents the main settings structure
 type Settings struct {
-	Version    string         `mapstructure:"version"`
-	Backtest   BacktestConfig `mapstructure:"backtest"`
-	Connectors []Connector    `mapstructure:"connectors"`
+	Version    string          `mapstructure:"version"`
+	Execution  ExecutionConfig `mapstructure:"execution"`
+	Backtest   BacktestConfig  `mapstructure:"backtest"`
+	Connectors []Connector     `mapstructure:"connectors"`
 }
 
 type Connector struct {
@@ -46,8 +47,11 @@ type TimeframeConfig struct {
 	End   string `mapstructure:"end"`
 }
 
-// ExecutionConfig defines execution parameters
+// ExecutionConfig defines strategy execution parameters
 type ExecutionConfig struct {
+	// Interval defines a fixed execution interval (e.g., "5m", "1h")
+	// If set, strategies run on this schedule rather than data-driven
+	Interval string `mapstructure:"interval"`
 }
 
 // OutputConfig defines output settings

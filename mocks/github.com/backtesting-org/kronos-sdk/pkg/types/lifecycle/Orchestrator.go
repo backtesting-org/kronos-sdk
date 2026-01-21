@@ -70,38 +70,6 @@ func (_c *Orchestrator_GetStrategies_Call) RunAndReturn(run func() []strategy.St
 	return _c
 }
 
-// NotifyDataUpdate provides a mock function with no fields
-func (_m *Orchestrator) NotifyDataUpdate() {
-	_m.Called()
-}
-
-// Orchestrator_NotifyDataUpdate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'NotifyDataUpdate'
-type Orchestrator_NotifyDataUpdate_Call struct {
-	*mock.Call
-}
-
-// NotifyDataUpdate is a helper method to define mock.On call
-func (_e *Orchestrator_Expecter) NotifyDataUpdate() *Orchestrator_NotifyDataUpdate_Call {
-	return &Orchestrator_NotifyDataUpdate_Call{Call: _e.mock.On("NotifyDataUpdate")}
-}
-
-func (_c *Orchestrator_NotifyDataUpdate_Call) Run(run func()) *Orchestrator_NotifyDataUpdate_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run()
-	})
-	return _c
-}
-
-func (_c *Orchestrator_NotifyDataUpdate_Call) Return() *Orchestrator_NotifyDataUpdate_Call {
-	_c.Call.Return()
-	return _c
-}
-
-func (_c *Orchestrator_NotifyDataUpdate_Call) RunAndReturn(run func()) *Orchestrator_NotifyDataUpdate_Call {
-	_c.Run(run)
-	return _c
-}
-
 // Start provides a mock function with given fields: ctx
 func (_m *Orchestrator) Start(ctx context.Context) error {
 	ret := _m.Called(ctx)

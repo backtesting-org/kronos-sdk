@@ -179,63 +179,6 @@ func (_c *WebSocketConnector_ErrorChannel_Call) RunAndReturn(run func() <-chan e
 	return _c
 }
 
-// FetchAvailableAssets provides a mock function with no fields
-func (_m *WebSocketConnector) FetchAvailableAssets() ([]portfolio.Asset, error) {
-	ret := _m.Called()
-
-	if len(ret) == 0 {
-		panic("no return value specified for FetchAvailableAssets")
-	}
-
-	var r0 []portfolio.Asset
-	var r1 error
-	if rf, ok := ret.Get(0).(func() ([]portfolio.Asset, error)); ok {
-		return rf()
-	}
-	if rf, ok := ret.Get(0).(func() []portfolio.Asset); ok {
-		r0 = rf()
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]portfolio.Asset)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func() error); ok {
-		r1 = rf()
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// WebSocketConnector_FetchAvailableAssets_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'FetchAvailableAssets'
-type WebSocketConnector_FetchAvailableAssets_Call struct {
-	*mock.Call
-}
-
-// FetchAvailableAssets is a helper method to define mock.On call
-func (_e *WebSocketConnector_Expecter) FetchAvailableAssets() *WebSocketConnector_FetchAvailableAssets_Call {
-	return &WebSocketConnector_FetchAvailableAssets_Call{Call: _e.mock.On("FetchAvailableAssets")}
-}
-
-func (_c *WebSocketConnector_FetchAvailableAssets_Call) Run(run func()) *WebSocketConnector_FetchAvailableAssets_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run()
-	})
-	return _c
-}
-
-func (_c *WebSocketConnector_FetchAvailableAssets_Call) Return(_a0 []portfolio.Asset, _a1 error) *WebSocketConnector_FetchAvailableAssets_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *WebSocketConnector_FetchAvailableAssets_Call) RunAndReturn(run func() ([]portfolio.Asset, error)) *WebSocketConnector_FetchAvailableAssets_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
 // FetchContracts provides a mock function with no fields
 func (_m *WebSocketConnector) FetchContracts() ([]connector.ContractInfo, error) {
 	ret := _m.Called()

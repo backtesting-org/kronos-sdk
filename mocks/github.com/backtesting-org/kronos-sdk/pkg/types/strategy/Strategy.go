@@ -3,7 +3,7 @@
 package strategy
 
 import (
-	context "context"
+	time "time"
 
 	strategy "github.com/backtesting-org/kronos-sdk/pkg/types/strategy"
 	mock "github.com/stretchr/testify/mock"
@@ -22,92 +22,49 @@ func (_m *Strategy) EXPECT() *Strategy_Expecter {
 	return &Strategy_Expecter{mock: &_m.Mock}
 }
 
-// Disable provides a mock function with no fields
-func (_m *Strategy) Disable() error {
+// ExecutionConfig provides a mock function with no fields
+func (_m *Strategy) ExecutionConfig() *strategy.ExecutionConfig {
 	ret := _m.Called()
 
 	if len(ret) == 0 {
-		panic("no return value specified for Disable")
+		panic("no return value specified for ExecutionConfig")
 	}
 
-	var r0 error
-	if rf, ok := ret.Get(0).(func() error); ok {
+	var r0 *strategy.ExecutionConfig
+	if rf, ok := ret.Get(0).(func() *strategy.ExecutionConfig); ok {
 		r0 = rf()
 	} else {
-		r0 = ret.Error(0)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*strategy.ExecutionConfig)
+		}
 	}
 
 	return r0
 }
 
-// Strategy_Disable_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Disable'
-type Strategy_Disable_Call struct {
+// Strategy_ExecutionConfig_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ExecutionConfig'
+type Strategy_ExecutionConfig_Call struct {
 	*mock.Call
 }
 
-// Disable is a helper method to define mock.On call
-func (_e *Strategy_Expecter) Disable() *Strategy_Disable_Call {
-	return &Strategy_Disable_Call{Call: _e.mock.On("Disable")}
+// ExecutionConfig is a helper method to define mock.On call
+func (_e *Strategy_Expecter) ExecutionConfig() *Strategy_ExecutionConfig_Call {
+	return &Strategy_ExecutionConfig_Call{Call: _e.mock.On("ExecutionConfig")}
 }
 
-func (_c *Strategy_Disable_Call) Run(run func()) *Strategy_Disable_Call {
+func (_c *Strategy_ExecutionConfig_Call) Run(run func()) *Strategy_ExecutionConfig_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		run()
 	})
 	return _c
 }
 
-func (_c *Strategy_Disable_Call) Return(_a0 error) *Strategy_Disable_Call {
+func (_c *Strategy_ExecutionConfig_Call) Return(_a0 *strategy.ExecutionConfig) *Strategy_ExecutionConfig_Call {
 	_c.Call.Return(_a0)
 	return _c
 }
 
-func (_c *Strategy_Disable_Call) RunAndReturn(run func() error) *Strategy_Disable_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// Enable provides a mock function with no fields
-func (_m *Strategy) Enable() error {
-	ret := _m.Called()
-
-	if len(ret) == 0 {
-		panic("no return value specified for Enable")
-	}
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func() error); ok {
-		r0 = rf()
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
-// Strategy_Enable_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Enable'
-type Strategy_Enable_Call struct {
-	*mock.Call
-}
-
-// Enable is a helper method to define mock.On call
-func (_e *Strategy_Expecter) Enable() *Strategy_Enable_Call {
-	return &Strategy_Enable_Call{Call: _e.mock.On("Enable")}
-}
-
-func (_c *Strategy_Enable_Call) Run(run func()) *Strategy_Enable_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run()
-	})
-	return _c
-}
-
-func (_c *Strategy_Enable_Call) Return(_a0 error) *Strategy_Enable_Call {
-	_c.Call.Return(_a0)
-	return _c
-}
-
-func (_c *Strategy_Enable_Call) RunAndReturn(run func() error) *Strategy_Enable_Call {
+func (_c *Strategy_ExecutionConfig_Call) RunAndReturn(run func() *strategy.ExecutionConfig) *Strategy_ExecutionConfig_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -153,6 +110,51 @@ func (_c *Strategy_GetDescription_Call) Return(_a0 string) *Strategy_GetDescript
 }
 
 func (_c *Strategy_GetDescription_Call) RunAndReturn(run func() string) *Strategy_GetDescription_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetLastRunAt provides a mock function with no fields
+func (_m *Strategy) GetLastRunAt() time.Time {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetLastRunAt")
+	}
+
+	var r0 time.Time
+	if rf, ok := ret.Get(0).(func() time.Time); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(time.Time)
+	}
+
+	return r0
+}
+
+// Strategy_GetLastRunAt_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetLastRunAt'
+type Strategy_GetLastRunAt_Call struct {
+	*mock.Call
+}
+
+// GetLastRunAt is a helper method to define mock.On call
+func (_e *Strategy_Expecter) GetLastRunAt() *Strategy_GetLastRunAt_Call {
+	return &Strategy_GetLastRunAt_Call{Call: _e.mock.On("GetLastRunAt")}
+}
+
+func (_c *Strategy_GetLastRunAt_Call) Run(run func()) *Strategy_GetLastRunAt_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *Strategy_GetLastRunAt_Call) Return(_a0 time.Time) *Strategy_GetLastRunAt_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *Strategy_GetLastRunAt_Call) RunAndReturn(run func() time.Time) *Strategy_GetLastRunAt_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -248,7 +250,7 @@ func (_c *Strategy_GetRiskLevel_Call) RunAndReturn(run func() strategy.RiskLevel
 }
 
 // GetSignals provides a mock function with given fields: ctx
-func (_m *Strategy) GetSignals(ctx context.Context) ([]*strategy.Signal, error) {
+func (_m *Strategy) GetSignals(ctx strategy.StrategyContext) ([]*strategy.Signal, error) {
 	ret := _m.Called(ctx)
 
 	if len(ret) == 0 {
@@ -257,10 +259,10 @@ func (_m *Strategy) GetSignals(ctx context.Context) ([]*strategy.Signal, error) 
 
 	var r0 []*strategy.Signal
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context) ([]*strategy.Signal, error)); ok {
+	if rf, ok := ret.Get(0).(func(strategy.StrategyContext) ([]*strategy.Signal, error)); ok {
 		return rf(ctx)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context) []*strategy.Signal); ok {
+	if rf, ok := ret.Get(0).(func(strategy.StrategyContext) []*strategy.Signal); ok {
 		r0 = rf(ctx)
 	} else {
 		if ret.Get(0) != nil {
@@ -268,7 +270,7 @@ func (_m *Strategy) GetSignals(ctx context.Context) ([]*strategy.Signal, error) 
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+	if rf, ok := ret.Get(1).(func(strategy.StrategyContext) error); ok {
 		r1 = rf(ctx)
 	} else {
 		r1 = ret.Error(1)
@@ -283,14 +285,14 @@ type Strategy_GetSignals_Call struct {
 }
 
 // GetSignals is a helper method to define mock.On call
-//   - ctx context.Context
+//   - ctx strategy.StrategyContext
 func (_e *Strategy_Expecter) GetSignals(ctx interface{}) *Strategy_GetSignals_Call {
 	return &Strategy_GetSignals_Call{Call: _e.mock.On("GetSignals", ctx)}
 }
 
-func (_c *Strategy_GetSignals_Call) Run(run func(ctx context.Context)) *Strategy_GetSignals_Call {
+func (_c *Strategy_GetSignals_Call) Run(run func(ctx strategy.StrategyContext)) *Strategy_GetSignals_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context))
+		run(args[0].(strategy.StrategyContext))
 	})
 	return _c
 }
@@ -300,7 +302,7 @@ func (_c *Strategy_GetSignals_Call) Return(_a0 []*strategy.Signal, _a1 error) *S
 	return _c
 }
 
-func (_c *Strategy_GetSignals_Call) RunAndReturn(run func(context.Context) ([]*strategy.Signal, error)) *Strategy_GetSignals_Call {
+func (_c *Strategy_GetSignals_Call) RunAndReturn(run func(strategy.StrategyContext) ([]*strategy.Signal, error)) *Strategy_GetSignals_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -350,48 +352,36 @@ func (_c *Strategy_GetStrategyType_Call) RunAndReturn(run func() strategy.Strate
 	return _c
 }
 
-// IsEnabled provides a mock function with no fields
-func (_m *Strategy) IsEnabled() bool {
-	ret := _m.Called()
-
-	if len(ret) == 0 {
-		panic("no return value specified for IsEnabled")
-	}
-
-	var r0 bool
-	if rf, ok := ret.Get(0).(func() bool); ok {
-		r0 = rf()
-	} else {
-		r0 = ret.Get(0).(bool)
-	}
-
-	return r0
+// WithExecutionConfig provides a mock function with given fields: _a0
+func (_m *Strategy) WithExecutionConfig(_a0 *strategy.ExecutionConfig) {
+	_m.Called(_a0)
 }
 
-// Strategy_IsEnabled_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'IsEnabled'
-type Strategy_IsEnabled_Call struct {
+// Strategy_WithExecutionConfig_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'WithExecutionConfig'
+type Strategy_WithExecutionConfig_Call struct {
 	*mock.Call
 }
 
-// IsEnabled is a helper method to define mock.On call
-func (_e *Strategy_Expecter) IsEnabled() *Strategy_IsEnabled_Call {
-	return &Strategy_IsEnabled_Call{Call: _e.mock.On("IsEnabled")}
+// WithExecutionConfig is a helper method to define mock.On call
+//   - _a0 *strategy.ExecutionConfig
+func (_e *Strategy_Expecter) WithExecutionConfig(_a0 interface{}) *Strategy_WithExecutionConfig_Call {
+	return &Strategy_WithExecutionConfig_Call{Call: _e.mock.On("WithExecutionConfig", _a0)}
 }
 
-func (_c *Strategy_IsEnabled_Call) Run(run func()) *Strategy_IsEnabled_Call {
+func (_c *Strategy_WithExecutionConfig_Call) Run(run func(_a0 *strategy.ExecutionConfig)) *Strategy_WithExecutionConfig_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run()
+		run(args[0].(*strategy.ExecutionConfig))
 	})
 	return _c
 }
 
-func (_c *Strategy_IsEnabled_Call) Return(_a0 bool) *Strategy_IsEnabled_Call {
-	_c.Call.Return(_a0)
+func (_c *Strategy_WithExecutionConfig_Call) Return() *Strategy_WithExecutionConfig_Call {
+	_c.Call.Return()
 	return _c
 }
 
-func (_c *Strategy_IsEnabled_Call) RunAndReturn(run func() bool) *Strategy_IsEnabled_Call {
-	_c.Call.Return(run)
+func (_c *Strategy_WithExecutionConfig_Call) RunAndReturn(run func(*strategy.ExecutionConfig)) *Strategy_WithExecutionConfig_Call {
+	_c.Run(run)
 	return _c
 }
 

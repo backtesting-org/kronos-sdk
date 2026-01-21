@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/backtesting-org/kronos-sdk/pkg/types/config"
+	configTypes "github.com/backtesting-org/kronos-sdk/pkg/types/config"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/connector"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/lifecycle"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/logging"
@@ -20,7 +20,7 @@ type rt struct {
 	connectorRegistry registry.ConnectorRegistry
 	assetRegistry     registry.AssetRegistry
 	strategyRegistry  registry.StrategyRegistry
-	configLoader      config.StartupConfigLoader
+	configLoader      configTypes.StartupConfigLoader
 	controller        lifecycle.Controller
 	logger            logging.ApplicationLogger
 	loadedStrategy    strategy.Strategy
@@ -33,7 +33,7 @@ func NewRuntime(
 	connectorRegistry registry.ConnectorRegistry,
 	assetRegistry registry.AssetRegistry,
 	strategyRegistry registry.StrategyRegistry,
-	configLoader config.StartupConfigLoader,
+	configLoader configTypes.StartupConfigLoader,
 	controller lifecycle.Controller,
 	logger logging.ApplicationLogger,
 ) runtime.Runtime {
@@ -67,11 +67,12 @@ func (r *rt) Start(configPath string, kronosPath string) error {
 	// Register assets
 	r.registerAssets(cfg.AssetConfigs)
 
-	// Boot in plugin mode
+	// Boot in plugin mode with execution config from StartupConfig
 	return r.boot(r.ctx, runtime.BootConfig{
-		Mode:           runtime.BootModePlugin,
-		StrategyPath:   cfg.PluginPath,
-		ConnectorNames: connectorNames,
+		Mode:            runtime.BootModePlugin,
+		StrategyPath:    cfg.PluginPath,
+		ConnectorNames:  connectorNames,
+		ExecutionConfig: cfg.ExecutionConfig,
 	})
 }
 
@@ -98,11 +99,12 @@ func (r *rt) StartStandalone(
 	// Register assets
 	r.registerAssets(cfg.AssetConfigs)
 
-	// Boot in standalone mode
+	// Boot in standalone mode with execution config from StartupConfig
 	return r.boot(r.ctx, runtime.BootConfig{
-		Mode:           runtime.BootModeStandalone,
-		Strategy:       strat,
-		ConnectorNames: connectorNames,
+		Mode:            runtime.BootModeStandalone,
+		Strategy:        strat,
+		ConnectorNames:  connectorNames,
+		ExecutionConfig: cfg.ExecutionConfig,
 	})
 }
 
@@ -182,9 +184,16 @@ func (r *rt) boot(ctx context.Context, cfg runtime.BootConfig) error {
 		}
 	}
 
+	// Set execution config on strategy (before registration)
+	// Nil is fine - orchestrator will use defaults
+	if cfg.ExecutionConfig != nil {
+		strat.WithExecutionConfig(cfg.ExecutionConfig)
+	}
+
 	r.loadedStrategy = strat
 	r.logger.Info("Strategy loaded", "name", strat.GetName())
 
+	// Register strategy (orchestrator can now read execution config from strategy)
 	r.strategyRegistry.RegisterStrategy(strat)
 
 	if err := r.controller.Start(ctx, strat.GetName()); err != nil {

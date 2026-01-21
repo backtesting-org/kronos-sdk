@@ -8,6 +8,7 @@ import (
 	"github.com/backtesting-org/kronos-sdk/pkg/types/connector"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/logging"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/portfolio"
+	"github.com/backtesting-org/kronos-sdk/pkg/types/strategy"
 )
 
 type startupConfigLoader struct {
@@ -71,12 +72,19 @@ func (l *startupConfigLoader) LoadForStrategy(
 	strategyName := filepath.Base(strategyDir)
 	pluginPath := filepath.Join(strategyDir, strategyName+".so")
 
+	// Extract execution config from strategy config
+	execConfig, err := l.extractExecutionConfig(stratConfig)
+	if err != nil {
+		return nil, fmt.Errorf("failed to extract execution config: %w", err)
+	}
+
 	return &config.StartupConfig{
 		Strategy:         stratConfig,
 		ConnectorConfigs: connectorConfigs,
 		AssetConfigs:     assetConfigs,
 		PluginPath:       pluginPath,
 		StrategyDir:      strategyDir,
+		ExecutionConfig:  execConfig,
 	}, nil
 }
 
@@ -106,4 +114,24 @@ func (l *startupConfigLoader) convertAssets(stratConfig *config.Strategy) map[po
 	}
 
 	return instrumentMap
+}
+
+// extractExecutionConfig extracts and converts execution config from strategy config
+// Returns nil if no execution config is defined (strategy will use global 50ms tick)
+func (l *startupConfigLoader) extractExecutionConfig(stratConfig *config.Strategy) (*strategy.ExecutionConfig, error) {
+	// Parse execution interval from strategy YAML
+	interval, err := stratConfig.ParseExecutionInterval()
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse execution interval: %w", err)
+	}
+
+	// If no execution section in YAML, return nil (use global tick interval)
+	if interval == nil {
+		return nil, nil
+	}
+
+	// Create simple execution config with fixed interval
+	return &strategy.ExecutionConfig{
+		ExecutionInterval: *interval,
+	}, nil
 }

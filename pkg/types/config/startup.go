@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/backtesting-org/kronos-sdk/pkg/types/connector"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/portfolio"
+	"github.com/backtesting-org/kronos-sdk/pkg/types/strategy"
 )
 
 // StartupConfig contains everything needed to start a strategy
@@ -21,6 +22,10 @@ type StartupConfig struct {
 
 	// StrategyDir is the directory containing the strategy
 	StrategyDir string
+
+	// ExecutionConfig is the parsed execution timing configuration from config.yml
+	// Nil if no execution section is defined (strategy will use defaults)
+	ExecutionConfig *strategy.ExecutionConfig
 }
 
 // StartupConfigLoader loads all configuration needed to run a strategy

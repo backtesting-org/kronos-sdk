@@ -15,10 +15,11 @@ const (
 
 // BootConfig holds internal configuration for booting
 type BootConfig struct {
-	Mode           BootMode
-	StrategyPath   string
-	Strategy       strategy.Strategy
-	ConnectorNames []connector.ExchangeName
+	Mode            BootMode
+	StrategyPath    string
+	Strategy        strategy.Strategy
+	ConnectorNames  []connector.ExchangeName
+	ExecutionConfig *strategy.ExecutionConfig // Execution timing config (nil = use defaults)
 }
 
 // Runtime is the main entry point for running strategies

@@ -21,98 +21,6 @@ func (_m *StrategyRegistry) EXPECT() *StrategyRegistry_Expecter {
 	return &StrategyRegistry_Expecter{mock: &_m.Mock}
 }
 
-// DisableStrategy provides a mock function with given fields: name
-func (_m *StrategyRegistry) DisableStrategy(name strategy.StrategyName) error {
-	ret := _m.Called(name)
-
-	if len(ret) == 0 {
-		panic("no return value specified for DisableStrategy")
-	}
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(strategy.StrategyName) error); ok {
-		r0 = rf(name)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
-// StrategyRegistry_DisableStrategy_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DisableStrategy'
-type StrategyRegistry_DisableStrategy_Call struct {
-	*mock.Call
-}
-
-// DisableStrategy is a helper method to define mock.On call
-//   - name strategy.StrategyName
-func (_e *StrategyRegistry_Expecter) DisableStrategy(name interface{}) *StrategyRegistry_DisableStrategy_Call {
-	return &StrategyRegistry_DisableStrategy_Call{Call: _e.mock.On("DisableStrategy", name)}
-}
-
-func (_c *StrategyRegistry_DisableStrategy_Call) Run(run func(name strategy.StrategyName)) *StrategyRegistry_DisableStrategy_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(strategy.StrategyName))
-	})
-	return _c
-}
-
-func (_c *StrategyRegistry_DisableStrategy_Call) Return(_a0 error) *StrategyRegistry_DisableStrategy_Call {
-	_c.Call.Return(_a0)
-	return _c
-}
-
-func (_c *StrategyRegistry_DisableStrategy_Call) RunAndReturn(run func(strategy.StrategyName) error) *StrategyRegistry_DisableStrategy_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// EnableStrategy provides a mock function with given fields: name
-func (_m *StrategyRegistry) EnableStrategy(name strategy.StrategyName) error {
-	ret := _m.Called(name)
-
-	if len(ret) == 0 {
-		panic("no return value specified for EnableStrategy")
-	}
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(strategy.StrategyName) error); ok {
-		r0 = rf(name)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
-// StrategyRegistry_EnableStrategy_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'EnableStrategy'
-type StrategyRegistry_EnableStrategy_Call struct {
-	*mock.Call
-}
-
-// EnableStrategy is a helper method to define mock.On call
-//   - name strategy.StrategyName
-func (_e *StrategyRegistry_Expecter) EnableStrategy(name interface{}) *StrategyRegistry_EnableStrategy_Call {
-	return &StrategyRegistry_EnableStrategy_Call{Call: _e.mock.On("EnableStrategy", name)}
-}
-
-func (_c *StrategyRegistry_EnableStrategy_Call) Run(run func(name strategy.StrategyName)) *StrategyRegistry_EnableStrategy_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(strategy.StrategyName))
-	})
-	return _c
-}
-
-func (_c *StrategyRegistry_EnableStrategy_Call) Return(_a0 error) *StrategyRegistry_EnableStrategy_Call {
-	_c.Call.Return(_a0)
-	return _c
-}
-
-func (_c *StrategyRegistry_EnableStrategy_Call) RunAndReturn(run func(strategy.StrategyName) error) *StrategyRegistry_EnableStrategy_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
 // GetAllStrategies provides a mock function with no fields
 func (_m *StrategyRegistry) GetAllStrategies() []strategy.Strategy {
 	ret := _m.Called()
@@ -156,53 +64,6 @@ func (_c *StrategyRegistry_GetAllStrategies_Call) Return(_a0 []strategy.Strategy
 }
 
 func (_c *StrategyRegistry_GetAllStrategies_Call) RunAndReturn(run func() []strategy.Strategy) *StrategyRegistry_GetAllStrategies_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// GetEnabledStrategies provides a mock function with no fields
-func (_m *StrategyRegistry) GetEnabledStrategies() []strategy.Strategy {
-	ret := _m.Called()
-
-	if len(ret) == 0 {
-		panic("no return value specified for GetEnabledStrategies")
-	}
-
-	var r0 []strategy.Strategy
-	if rf, ok := ret.Get(0).(func() []strategy.Strategy); ok {
-		r0 = rf()
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]strategy.Strategy)
-		}
-	}
-
-	return r0
-}
-
-// StrategyRegistry_GetEnabledStrategies_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetEnabledStrategies'
-type StrategyRegistry_GetEnabledStrategies_Call struct {
-	*mock.Call
-}
-
-// GetEnabledStrategies is a helper method to define mock.On call
-func (_e *StrategyRegistry_Expecter) GetEnabledStrategies() *StrategyRegistry_GetEnabledStrategies_Call {
-	return &StrategyRegistry_GetEnabledStrategies_Call{Call: _e.mock.On("GetEnabledStrategies")}
-}
-
-func (_c *StrategyRegistry_GetEnabledStrategies_Call) Run(run func()) *StrategyRegistry_GetEnabledStrategies_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run()
-	})
-	return _c
-}
-
-func (_c *StrategyRegistry_GetEnabledStrategies_Call) Return(_a0 []strategy.Strategy) *StrategyRegistry_GetEnabledStrategies_Call {
-	_c.Call.Return(_a0)
-	return _c
-}
-
-func (_c *StrategyRegistry_GetEnabledStrategies_Call) RunAndReturn(run func() []strategy.Strategy) *StrategyRegistry_GetEnabledStrategies_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -306,52 +167,6 @@ func (_c *StrategyRegistry_GetStrategyCount_Call) Return(_a0 int) *StrategyRegis
 }
 
 func (_c *StrategyRegistry_GetStrategyCount_Call) RunAndReturn(run func() int) *StrategyRegistry_GetStrategyCount_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// IsStrategyEnabled provides a mock function with given fields: name
-func (_m *StrategyRegistry) IsStrategyEnabled(name strategy.StrategyName) bool {
-	ret := _m.Called(name)
-
-	if len(ret) == 0 {
-		panic("no return value specified for IsStrategyEnabled")
-	}
-
-	var r0 bool
-	if rf, ok := ret.Get(0).(func(strategy.StrategyName) bool); ok {
-		r0 = rf(name)
-	} else {
-		r0 = ret.Get(0).(bool)
-	}
-
-	return r0
-}
-
-// StrategyRegistry_IsStrategyEnabled_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'IsStrategyEnabled'
-type StrategyRegistry_IsStrategyEnabled_Call struct {
-	*mock.Call
-}
-
-// IsStrategyEnabled is a helper method to define mock.On call
-//   - name strategy.StrategyName
-func (_e *StrategyRegistry_Expecter) IsStrategyEnabled(name interface{}) *StrategyRegistry_IsStrategyEnabled_Call {
-	return &StrategyRegistry_IsStrategyEnabled_Call{Call: _e.mock.On("IsStrategyEnabled", name)}
-}
-
-func (_c *StrategyRegistry_IsStrategyEnabled_Call) Run(run func(name strategy.StrategyName)) *StrategyRegistry_IsStrategyEnabled_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(strategy.StrategyName))
-	})
-	return _c
-}
-
-func (_c *StrategyRegistry_IsStrategyEnabled_Call) Return(_a0 bool) *StrategyRegistry_IsStrategyEnabled_Call {
-	_c.Call.Return(_a0)
-	return _c
-}
-
-func (_c *StrategyRegistry_IsStrategyEnabled_Call) RunAndReturn(run func(strategy.StrategyName) bool) *StrategyRegistry_IsStrategyEnabled_Call {
 	_c.Call.Return(run)
 	return _c
 }

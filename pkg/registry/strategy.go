@@ -1,7 +1,6 @@
 package registry
 
 import (
-	"fmt"
 	"sync"
 
 	"github.com/backtesting-org/kronos-sdk/pkg/types/registry"
@@ -54,56 +53,6 @@ func (sr *strategyRegistry) GetAllStrategies() []strategy.Strategy {
 	}
 
 	return strategies
-}
-
-func (sr *strategyRegistry) GetEnabledStrategies() []strategy.Strategy {
-	sr.mu.RLock()
-	defer sr.mu.RUnlock()
-
-	enabled := make([]strategy.Strategy, 0)
-	for _, strat := range sr.strategies {
-		if strat.IsEnabled() {
-			enabled = append(enabled, strat)
-		}
-	}
-
-	return enabled
-}
-
-func (sr *strategyRegistry) EnableStrategy(name strategy.StrategyName) error {
-	sr.mu.RLock()
-	strat, exists := sr.strategies[name]
-	sr.mu.RUnlock()
-
-	if !exists {
-		return fmt.Errorf("strategy %s not found", name)
-	}
-
-	return strat.Enable()
-}
-
-func (sr *strategyRegistry) DisableStrategy(name strategy.StrategyName) error {
-	sr.mu.RLock()
-	strat, exists := sr.strategies[name]
-	sr.mu.RUnlock()
-
-	if !exists {
-		return fmt.Errorf("strategy %s not found", name)
-	}
-
-	return strat.Disable()
-}
-
-func (sr *strategyRegistry) IsStrategyEnabled(name strategy.StrategyName) bool {
-	sr.mu.RLock()
-	defer sr.mu.RUnlock()
-
-	strat, exists := sr.strategies[name]
-	if !exists {
-		return false
-	}
-
-	return strat.IsEnabled()
 }
 
 func (sr *strategyRegistry) GetStrategyCount() int {

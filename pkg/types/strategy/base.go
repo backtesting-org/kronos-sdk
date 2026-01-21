@@ -1,9 +1,25 @@
 package strategy
 
 import (
+	"errors"
 	"sync"
 	"time"
 )
+
+// ExecutionConfig defines how a strategy should be executed
+type ExecutionConfig struct {
+	ExecutionInterval time.Duration
+}
+
+// BaseStrategyConfig holds configuration for creating a base strategy
+type BaseStrategyConfig struct {
+	Name        StrategyName
+	Description string
+	RiskLevel   RiskLevel
+	Type        StrategyType
+
+	ExecutionConfig *ExecutionConfig
+}
 
 // BaseStrategy provides common functionality for all strategies
 type BaseStrategy struct {
@@ -12,53 +28,34 @@ type BaseStrategy struct {
 	riskLevel    RiskLevel
 	strategyType StrategyType
 	enabled      bool
-	createdAt    time.Time
-	updatedAt    time.Time
-	mu           sync.RWMutex
+	lastRunAt    time.Time
+
+	executionConfig *ExecutionConfig
+
+	mu sync.RWMutex
 }
 
-// NewBaseStrategy creates a new base strategy with common fields
-func NewBaseStrategy(
-	name StrategyName,
-	description string,
-	riskLevel RiskLevel,
-	strategyType StrategyType,
-) *BaseStrategy {
+// NewBaseStrategy creates a new base strategy with the provided configuration
+func NewBaseStrategy(config BaseStrategyConfig) Strategy {
 	now := time.Now()
 	return &BaseStrategy{
-		name:         name,
-		description:  description,
-		riskLevel:    riskLevel,
-		strategyType: strategyType,
-		enabled:      false, // Start disabled by default
-		createdAt:    now,
-		updatedAt:    now,
+		name:            config.Name,
+		description:     config.Description,
+		riskLevel:       config.RiskLevel,
+		strategyType:    config.Type,
+		lastRunAt:       now,
+		executionConfig: config.ExecutionConfig,
 	}
 }
 
-// Enable enables the strategy
-func (s *BaseStrategy) Enable() error {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	s.enabled = true
-	s.updatedAt = time.Now()
-	return nil
+func (s *BaseStrategy) GetSignals(ctx StrategyContext) ([]*Signal, error) {
+	return nil, errors.New("GetSignals not implemented")
 }
 
-// Disable disables the strategy
-func (s *BaseStrategy) Disable() error {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	s.enabled = false
-	s.updatedAt = time.Now()
-	return nil
-}
-
-// IsEnabled returns whether the strategy is enabled
-func (s *BaseStrategy) IsEnabled() bool {
+func (s *BaseStrategy) GetLastRunAt() time.Time {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	return s.enabled
+	return s.lastRunAt
 }
 
 // GetName returns the strategy name
@@ -81,14 +78,23 @@ func (s *BaseStrategy) GetStrategyType() StrategyType {
 	return s.strategyType
 }
 
-// GetCreatedAt returns when the strategy was created
-func (s *BaseStrategy) GetCreatedAt() time.Time {
-	return s.createdAt
-}
-
-// GetUpdatedAt returns when the strategy was last updated
-func (s *BaseStrategy) GetUpdatedAt() time.Time {
+func (s *BaseStrategy) ExecutionConfig() *ExecutionConfig {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	return s.updatedAt
+	return s.executionConfig
+}
+
+func (s *BaseStrategy) WithExecutionConfig(cfg *ExecutionConfig) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.executionConfig = cfg
+}
+
+func RecordExecution(strat Strategy, t time.Time) {
+	// Type assert to concrete BaseStrategy
+	if base, ok := strat.(*BaseStrategy); ok {
+		base.mu.Lock()
+		defer base.mu.Unlock()
+		base.lastRunAt = t
+	}
 }

@@ -1,6 +1,8 @@
 package strategy
 
 import (
+	"time"
+
 	"github.com/backtesting-org/kronos-sdk/pkg/types/connector"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/portfolio"
 )
@@ -32,10 +34,9 @@ type Strategy interface {
 	GetDescription() string
 	GetRiskLevel() RiskLevel
 	GetStrategyType() StrategyType
-
-	Enable() error
-	Disable() error
-	IsEnabled() bool
+	ExecutionConfig() *ExecutionConfig
+	WithExecutionConfig(*ExecutionConfig)
+	GetLastRunAt() time.Time
 }
 
 // RequiredAsset specifies an asset and which instrument types are needed

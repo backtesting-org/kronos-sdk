@@ -1,9 +1,9 @@
 package monitoring_test
 
 import (
-	"context"
 	"fmt"
 
+	strategyMock "github.com/backtesting-org/kronos-sdk/mocks/github.com/backtesting-org/kronos-sdk/pkg/types/strategy"
 	sdkTesting "github.com/backtesting-org/kronos-sdk/pkg/testing"
 	"github.com/backtesting-org/kronos-sdk/pkg/types/connector"
 	storeActivity "github.com/backtesting-org/kronos-sdk/pkg/types/data/stores/activity"
@@ -18,46 +18,6 @@ import (
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxtest"
 )
-
-// testStrategy is a simple strategy implementation for testing
-type testStrategy struct {
-	name    strategy.StrategyName
-	enabled bool
-}
-
-func (s *testStrategy) GetSignals(_ context.Context) ([]*strategy.Signal, error) {
-	return nil, nil
-}
-
-func (s *testStrategy) GetName() strategy.StrategyName {
-	return s.name
-}
-
-func (s *testStrategy) GetDescription() string {
-	return "Test strategy"
-}
-
-func (s *testStrategy) GetRiskLevel() strategy.RiskLevel {
-	return strategy.RiskLevelLow
-}
-
-func (s *testStrategy) GetStrategyType() strategy.StrategyType {
-	return strategy.StrategyTypeTechnical
-}
-
-func (s *testStrategy) Enable() error {
-	s.enabled = true
-	return nil
-}
-
-func (s *testStrategy) Disable() error {
-	s.enabled = false
-	return nil
-}
-
-func (s *testStrategy) IsEnabled() bool {
-	return s.enabled
-}
 
 var _ = Describe("ViewRegistry", func() {
 	var (
@@ -85,10 +45,8 @@ var _ = Describe("ViewRegistry", func() {
 		app.RequireStart()
 
 		// Register a test strategy
-		testStrat := &testStrategy{
-			name:    "test-strategy",
-			enabled: true,
-		}
+		testStrat := strategyMock.NewStrategy(GinkgoT())
+		testStrat.On("GetName").Return(strategy.StrategyName("test-strategy"))
 		strategyRegistry.RegisterStrategy(testStrat)
 	})
 
@@ -155,11 +113,6 @@ var _ = Describe("ViewRegistry", func() {
 
 		Context("when no strategy exists", func() {
 			It("should return nil", func() {
-				// Unregister all strategies
-				for _, strat := range strategyRegistry.GetAllStrategies() {
-					_ = strategyRegistry.DisableStrategy(strat.GetName())
-				}
-
 				result := viewRegistry.GetPositionsView()
 
 				// GetPositionsView returns execution for first strategy, or nil if none
@@ -213,16 +166,6 @@ var _ = Describe("ViewRegistry", func() {
 		Context("when no strategy exists", func() {
 			It("should return nil", func() {
 				// Remove all strategies
-				for _, strat := range strategyRegistry.GetAllStrategies() {
-					_ = strategyRegistry.DisableStrategy(strat.GetName())
-				}
-
-				// Unregister strategies
-				strategies := strategyRegistry.GetAllStrategies()
-				for _, strat := range strategies {
-					_ = strategyRegistry.DisableStrategy(strat.GetName())
-				}
-
 				result := viewRegistry.GetRecentTrades(10)
 
 				// With no strategies, should return nil
