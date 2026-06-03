@@ -16,6 +16,7 @@ vendor/
 
 # IDE settings
 .idea/
+.vscode/
 
 # Logs and temporary files
 *.log
@@ -45,7 +46,3 @@ CLAUDE.md
 
 # Debug scripts
 debug/
-branch_structure.json
-temp_auto_push.bat
-temp_interactive_push.bat
-.gitignore
